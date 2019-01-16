@@ -1,34 +1,34 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-const productRoutes = require("./routes/products");
+const productRoute = require("./routes/products");
 
-const PORT = 8000;
+mongoose.promise = global.promise;
 
-// connect to db
+const port = 5000;
+const app = express();
+
+//connect to database
 mongoose.connect(
    "mongodb://localhost:27017/shop",
    { useNewUrlParser: true }
 );
-mongoose.Promise = global.Promise;
 
-// Initialize express
-const app = express();
+mongoose.connection.once("open", () => {
+   console.log("Connected to database");
+});
 
-// Enable cors
-app.use(cors);
+//Enable cors
+app.use(cors());
 
-// json parser
-const jsonParser = bodyParser.json();
+// Parse incoming json requests
+app.use(express.json());
 
-// Parse Json requests
-app.use(jsonParser);
+// Routes
+app.use("/products", productRoute);
 
-//Routes
-app.use("/products", productRoutes);
-
-app.listen(PORT, () => {
-   console.log(`Listening for requests on port ${PORT} `);
+// Listen for incoming requests
+app.listen(port, () => {
+   console.log(`Listening for requests on port ${port}`);
 });

@@ -7,16 +7,16 @@ router.get("/", (req, res) => {
    });
 });
 
-router.post("/", (req, res) => {
-   res.status(200).json({
-      message: "Handling post requests to /products"
-   });
-});
-
-router.post("/:productId", (req, res) => {
+router.get("/:productId", (req, res) => {
    const id = req.params.productId;
    res.status(200).json({
       message: `Your reached a product with id:${id}`
+   });
+});
+
+router.post("/", (req, res) => {
+   res.status(200).json({
+      message: "Handling post requests to /products"
    });
 });
 
