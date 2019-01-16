@@ -1,0 +1,30 @@
+{
+   "name": "node_react_shop",
+   "version": "1.0.0",
+   "description": "Node React Web shop",
+   "main": "server.js",
+   "scripts": {
+      "start": "node server.js",
+      "dev": "nodemon server.js"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/mrphemi/node_react_shop.git"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/mrphemi/node_react_shop/issues"
+   },
+   "homepage": "https://github.com/mrphemi/node_react_shop#readme",
+   "dependencies": {
+      "body-parser": "^1.18.3",
+      "express": "^4.16.4",
+      "mongoose": "^5.4.4",
+      "multer": "^1.4.1"
+   },
+   "devDependencies": {
+      "nodemon": "^1.18.9"
+   }
+}
