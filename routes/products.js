@@ -10,13 +10,13 @@ router.get("/", (req, res) => {
    Product.find({})
       .exec()
       .then(products => {
-         if (products) {
+         if (products.length > 0) {
             res.status(200).json({
                message: "Products retrieved",
                products
             });
          } else {
-            res.status(404).json({
+            res.json({
                message: "No products found"
             });
          }
@@ -83,6 +83,33 @@ router.post("/", (req, res) => {
       .catch(err => {
          res.status(401).json({
             errMessage: err.message
+         });
+      });
+});
+
+// @route   DELETE /products
+// @desc    Deletes specified product
+// @access  Private
+router.delete("/:productId", (req, res) => {
+   const productId = req.params.productId;
+   Product.findByIdAndRemove(productId)
+      .exec()
+      .then(product => {
+         if (product) {
+            res.status(200).json({
+               message: "Product deleted sucessfully",
+               product
+            });
+         } else {
+            res.status(404).json({
+               message: "No matches for product"
+            });
+         }
+      })
+      .catch(err => {
+         res.status(500).json({
+            message: "An error occured",
+            err
          });
       });
 });
