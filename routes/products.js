@@ -3,10 +3,30 @@ const router = express.Router();
 
 const Product = require("../model/product");
 
+// @route   GET /products
+// @desc    Retrieve all products
+// @access  Public
 router.get("/", (req, res) => {
-   res.status(200).json({
-      message: "Handling get requests to /products"
-   });
+   Product.find({})
+      .exec()
+      .then(products => {
+         if (products) {
+            res.status(200).json({
+               message: "Products retrieved",
+               products
+            });
+         } else {
+            res.status(404).json({
+               message: "No products found"
+            });
+         }
+      })
+      .catch(err => {
+         res.status(500).json({
+            message: "An error occured",
+            err
+         });
+      });
 });
 
 router.get("/:productId", (req, res) => {
