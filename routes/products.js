@@ -63,6 +63,7 @@ router.post("/", (req, res) => {
    // Get product details from request body
    const details = {
       name: req.body.name,
+      category: req.body.category,
       desc: req.body.desc,
       price: req.body.price,
       image: req.body.image
@@ -75,7 +76,7 @@ router.post("/", (req, res) => {
    newProduct
       .save()
       .then(product => {
-         res.status(200).json({
+         res.status(201).json({
             message: "Product created sucessfully",
             product
          });
