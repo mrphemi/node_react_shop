@@ -34,7 +34,7 @@ router.get("/", (req, res) => {
 // @access  Public
 router.get("/:productId", (req, res) => {
    const productId = req.params.productId;
-   Product.findById({ _id: productId })
+   Product.findById(productId)
       .exec()
       .then(product => {
          if (product) {
