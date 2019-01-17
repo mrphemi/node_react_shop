@@ -29,11 +29,31 @@ router.get("/", (req, res) => {
       });
 });
 
+// @route   GET /products/{productId}
+// @desc    Retrieve's single product
+// @access  Public
 router.get("/:productId", (req, res) => {
-   const id = req.params.productId;
-   res.status(200).json({
-      message: `Your reached a product with id:${id}`
-   });
+   const productId = req.params.productId;
+   Product.findById({ _id: productId })
+      .exec()
+      .then(product => {
+         if (product) {
+            res.status(200).json({
+               message: "Product retrieved sucessfully",
+               product
+            });
+         } else {
+            res.status(404).json({
+               message: "No matches for product"
+            });
+         }
+      })
+      .catch(err => {
+         res.status(500).json({
+            message: "An error occured",
+            err
+         });
+      });
 });
 
 // @route   POST /products
