@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const productRoute = require("./routes/products");
+const orderRoute = require("./routes/orders");
 
 mongoose.promise = global.promise;
 
@@ -27,6 +28,7 @@ app.use(express.json());
 
 // Routes
 app.use("/products", productRoute);
+app.use("/orders", orderRoute);
 
 // Listen for incoming requests
 app.listen(port, () => {
