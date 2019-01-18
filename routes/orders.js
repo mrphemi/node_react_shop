@@ -8,9 +8,21 @@ const Order = require("../model/order");
 // @desc    Retrieve all orders
 // @access  Private
 router.get("/", (req, res) => {
-   res.status(200).json({
-      message: "Handling requests for /orders"
-   });
+   // Get all orders from db
+   Order.find()
+      .exec()
+      .then(orders => {
+         res.status(200).json({
+            message: "Retrieved all orders sucessfully",
+            orders
+         });
+      })
+      .catch(err => {
+         res.status(500).json({
+            message: "An error occured",
+            err
+         });
+      });
 });
 
 // @route   POST /orders
@@ -30,7 +42,6 @@ router.post("/", (req, res) => {
    order
       .save()
       .then(order => {
-         console.log(order);
          res.status(201).json({
             message: "Order created sucessfully",
             order
@@ -38,6 +49,7 @@ router.post("/", (req, res) => {
       })
       .catch(err => {
          res.status(500).json({
+            message: "An error occured",
             err
          });
       });
