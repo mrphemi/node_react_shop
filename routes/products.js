@@ -57,7 +57,7 @@ router.get("/:productId", (req, res) => {
 });
 
 // @route   POST /products
-// @desc    Creates new products
+// @desc    Creates new product
 // @access  Private
 router.post("/", (req, res) => {
    // Get product details from request body

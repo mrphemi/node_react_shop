@@ -3,19 +3,24 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
    name: {
-      type: String
+      type: String,
+      required: true
    },
    category: {
-      type: String
+      type: String,
+      required: true
    },
    desc: {
-      type: String
+      type: String,
+      required: true
    },
    price: {
-      type: Number
+      type: Number,
+      required: true
    },
    image: {
-      type: String
+      type: String,
+      required: true
    },
    createdAt: {
       type: Date,
