@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const Order = require("../model/order");
+const Product = require("../model/product");
 
 // @route   GET /orders
 // @desc    Retrieve all orders
@@ -38,9 +39,19 @@ router.post("/", (req, res) => {
    // create new order
    const order = new Order(details);
 
-   //save order to db
-   order
-      .save()
+   // check if associated product exists
+   Product.findById(details.product)
+      .exec()
+      .then(product => {
+         if (!product) {
+            res.status(404).json({
+               message: "No product found"
+            });
+         } else {
+            //save order to db
+            return order.save();
+         }
+      })
       .then(order => {
          res.status(201).json({
             message: "Order created sucessfully",
