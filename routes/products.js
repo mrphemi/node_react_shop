@@ -93,7 +93,7 @@ router.post("/", (req, res) => {
 // @access  Private
 router.delete("/:productId", (req, res) => {
    const productId = req.params.productId;
-   Product.findByIdAndRemove(productId)
+   Product.findByIdAndDelete(productId)
       .exec()
       .then(product => {
          if (product) {
