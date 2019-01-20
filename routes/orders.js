@@ -69,9 +69,9 @@ router.post("/", (req, res) => {
 // @desc    delete order
 // @access  Private
 router.delete("/:orderId", (req, res) => {
-   const id = req.param.orderId;
+   const id = req.params.orderId;
 
-   Order.findByIdAndRemove(id)
+   Order.findByIdAndDelete(id)
       .exec()
       .then(order => {
          if (order) {
@@ -86,7 +86,7 @@ router.delete("/:orderId", (req, res) => {
          }
       })
       .catch(err => {
-         res.status(200).json({
+         res.status(500).json({
             message: "An error occured",
             err
          });
