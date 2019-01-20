@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 
 const Order = require("../model/order");
 const Product = require("../model/product");
@@ -60,6 +59,34 @@ router.post("/", (req, res) => {
       })
       .catch(err => {
          res.status(500).json({
+            message: "An error occured",
+            err
+         });
+      });
+});
+
+// @route   DELETE /orders
+// @desc    delete order
+// @access  Private
+router.delete("/:orderId", (req, res) => {
+   const id = req.param.orderId;
+
+   Order.findByIdAndRemove(id)
+      .exec()
+      .then(order => {
+         if (order) {
+            res.status(200).json({
+               message: "Order deleted sucessfully",
+               order
+            });
+         } else {
+            res.status(404).json({
+               message: "No matches for order"
+            });
+         }
+      })
+      .catch(err => {
+         res.status(200).json({
             message: "An error occured",
             err
          });
