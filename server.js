@@ -5,6 +5,7 @@ const cors = require("cors");
 const productRoute = require("./routes/products");
 const orderRoute = require("./routes/orders");
 const signupRoute = require("./routes/signUp");
+const loginRoute = require("./routes/login");
 
 mongoose.promise = global.promise;
 
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use("/products", productRoute);
 app.use("/orders", orderRoute);
 app.use("/signup", signupRoute);
+app.use("/login", loginRoute);
 
 // Listen for incoming requests
 app.listen(port, () => {
