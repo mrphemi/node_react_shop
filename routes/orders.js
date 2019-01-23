@@ -8,9 +8,13 @@ const Product = require("../model/product");
 // @desc    Retrieve all orders
 // @access  Private
 router.get("/", (req, res) => {
+   // populate options
+   const options = [{ path: "product", select: "id name desc price image" }];
+
    // Get all orders from db
    Order.find()
-      .populate("product")
+      .select("-__v")
+      .populate(options)
       .exec()
       .then(orders => {
          res.status(200).json({
@@ -32,6 +36,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
    // get order details from request body
    const details = {
+      user: req.body.userId,
       product: req.body.productId,
       quantity: req.body.quantity
    };
