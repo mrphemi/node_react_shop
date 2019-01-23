@@ -6,6 +6,7 @@ const productRoute = require("./routes/products");
 const orderRoute = require("./routes/orders");
 const signupRoute = require("./routes/auth/signUp");
 const loginRoute = require("./routes/auth/login");
+const authRoute = require("./routes/auth/auth");
 
 mongoose.promise = global.promise;
 
@@ -33,6 +34,7 @@ app.use("/products", productRoute);
 app.use("/orders", orderRoute);
 app.use("/signup", signupRoute);
 app.use("/login", loginRoute);
+app.use("/auth", authRoute);
 
 // Listen for incoming requests
 app.listen(port, () => {
