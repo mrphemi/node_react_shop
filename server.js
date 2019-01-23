@@ -4,8 +4,8 @@ const cors = require("cors");
 
 const productRoute = require("./routes/products");
 const orderRoute = require("./routes/orders");
-const signupRoute = require("./routes/signUp");
-const loginRoute = require("./routes/login");
+const signupRoute = require("./routes/auth/signUp");
+const loginRoute = require("./routes/auth/login");
 
 mongoose.promise = global.promise;
 
