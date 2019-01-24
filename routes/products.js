@@ -8,6 +8,7 @@ const Product = require("../model/product");
 // @access  Public
 router.get("/", (req, res) => {
    Product.find({})
+      .select("name category price image")
       .exec()
       .then(products => {
          if (products.length > 0) {
@@ -35,6 +36,8 @@ router.get("/", (req, res) => {
 router.get("/:productId", (req, res) => {
    const productId = req.params.productId;
    Product.findById(productId)
+      .select("-__v")
+      .populate("user", "firstName lastName")
       .exec()
       .then(product => {
          if (product) {
@@ -62,6 +65,7 @@ router.get("/:productId", (req, res) => {
 router.post("/", (req, res) => {
    // Get product details from request body
    const details = {
+      user: req.body.userId,
       name: req.body.name,
       category: req.body.category,
       desc: req.body.desc,
