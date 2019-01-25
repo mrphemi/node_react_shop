@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
+import jwt from "jsonwebtoken";
+
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 
 // Get token from incoming requests
 const verifyToken = (req, res, next) => {
@@ -29,4 +29,4 @@ router.post("/", verifyToken, (req, res) => {
    });
 });
 
-module.exports = router;
+export default router;

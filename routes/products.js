@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
 const Product = require("../model/product");
@@ -126,4 +126,4 @@ router.patch("/:productId", (req, res) => {
       });
 });
 
-module.exports = router;
+export default router;

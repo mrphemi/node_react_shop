@@ -1,4 +1,5 @@
-const express = require("express");
+import express from "express";
+
 const router = express.Router();
 
 const Order = require("../model/order");
@@ -99,4 +100,4 @@ router.delete("/:orderId", (req, res) => {
       });
 });
 
-module.exports = router;
+export default router;
