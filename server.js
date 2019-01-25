@@ -1,12 +1,12 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
 
-const productRoute = require("./routes/products");
-const orderRoute = require("./routes/orders");
-const signupRoute = require("./routes/auth/signUp");
-const loginRoute = require("./routes/auth/login");
-const authRoute = require("./routes/auth/auth");
+import productRoute from "./routes/products";
+import orderRoute from "./routes/orders";
+import signupRoute from "./routes/auth/signUp";
+import loginRoute from "./routes/auth/login";
+import authRoute from "./routes/auth/auth";
 
 mongoose.promise = global.promise;
 
