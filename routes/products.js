@@ -3,32 +3,12 @@ const router = express.Router();
 
 const Product = require("../model/product");
 
+import getAllProducts from "../controllers/product/getAll";
+
 // @route   GET /products
 // @desc    Retrieve all products
 // @access  Public
-router.get("/", (req, res) => {
-   Product.find({})
-      .select("name category price image")
-      .exec()
-      .then(products => {
-         if (products.length > 0) {
-            res.status(200).json({
-               message: "Products retrieved",
-               products
-            });
-         } else {
-            res.json({
-               message: "No products found"
-            });
-         }
-      })
-      .catch(err => {
-         res.status(500).json({
-            message: "An error occured",
-            err
-         });
-      });
-});
+router.get("/", getAllProducts);
 
 // @route   GET /products/{productId}
 // @desc    Retrieve's single product
