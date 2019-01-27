@@ -9,4 +9,4 @@ const cloudinaryConfig = (req, res, next) => {
    next();
 };
 
-export default cloudinary;
+export default cloudinaryConfig;

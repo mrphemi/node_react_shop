@@ -1,13 +1,17 @@
 import express from "express";
 const router = express.Router();
 
+import cloudinaryConfig from "../config/cloudinary";
 import {
    getAllProducts,
    getProduct,
    createProduct,
    deleteProduct,
-   updateProduct
+   updateProduct,
+   uploadImage
 } from "../controllers/product";
+
+router.use("/", cloudinaryConfig);
 
 // @route   GET /products
 // @desc    Retrieve all products
@@ -23,6 +27,11 @@ router.get("/:productId", getProduct);
 // @desc    Creates new product
 // @access  Private
 router.post("/", createProduct);
+
+// @route   POST /products/image-upload
+// @desc    upload product image
+// @access  Private
+router.post("/image-upload", uploadImage);
 
 // @route   DELETE /products
 // @desc    Deletes specified product

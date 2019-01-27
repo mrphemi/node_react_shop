@@ -8,7 +8,7 @@ const CreateProduct = (req, res) => {
       category: req.body.category,
       desc: req.body.desc,
       price: req.body.price,
-      image: req.body.image
+      image: req.body.imageUrl
    };
 
    // Create new product
