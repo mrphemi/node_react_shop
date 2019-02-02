@@ -32,19 +32,19 @@ const login = (req, res) => {
                   );
                } else {
                   res.json({
-                     message: "email or password incorrect.Try again"
+                     errorMsg: "email or password incorrect.Try again"
                   });
                }
             });
          } else {
             res.json({
-               message: "email or password incorrect.Try again"
+               errorMsg: "email or password incorrect.Try again"
             });
          }
       })
       .catch(err => {
          res.status(500).json({
-            message: "An error occured",
+            errorMsg: "An error occured",
             err
          });
       });
