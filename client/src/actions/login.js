@@ -1,6 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { LOGIN_ERROR, SET_CURRENT_USER } from "./types";
+import { SET_CURRENT_USER, LOGIN_ERROR } from "./types";
+import { showErr, showMsg } from "./message";
 
 const setCurrentUser = user => {
    return {
@@ -9,29 +10,32 @@ const setCurrentUser = user => {
    };
 };
 
-const loginError = error => {
+export const loginErr = () => {
    return {
-      type: LOGIN_ERROR,
-      error
+      type: LOGIN_ERROR
    };
 };
 
 export const login = credentials => {
    return dispatch => {
       axios
-         .post("http://localhost:5000/login", credentials)
+         .post("/login", credentials)
          .then(res => {
-            let { token, errorMsg } = res.data;
+            let { token, errorMsg, message } = res.data;
 
             if (errorMsg) {
-               dispatch(loginError(errorMsg));
+               // display error message
+               dispatch(showErr(errorMsg));
+               dispatch(loginErr());
+            } else {
+               // Store token in local storage
+               localStorage.setItem("token", token);
+               // Decode token to get user data
+               let user = jwt_decode(token);
+               dispatch(showMsg(message));
+               // Set current user
+               dispatch(setCurrentUser(user));
             }
-            // Store token in local storage
-            localStorage.setItem("token", token);
-            // Decode token to get user data
-            let user = jwt_decode(token);
-            // Set current user
-            dispatch(setCurrentUser(user));
          })
          .catch(err => console.log(err));
    };
