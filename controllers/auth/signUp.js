@@ -21,7 +21,7 @@ const signUp = (req, res) => {
          if (user) {
             // user already exists in db
             res.json({
-               message: "User already exists"
+               errMessage: "User already exists"
             });
          } else {
             // Hash user password and store user in db
@@ -44,7 +44,7 @@ const signUp = (req, res) => {
       })
       .catch(err => {
          res.status(500).json({
-            message: "An error occured",
+            errMessage: "An error occured",
             err
          });
       });
