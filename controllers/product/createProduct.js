@@ -25,7 +25,7 @@ const CreateProduct = (req, res) => {
       })
       .catch(err => {
          res.status(401).json({
-            errMessage: err.message
+            errorMsg: err.message
          });
       });
 };
