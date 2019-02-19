@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { compose } from "recompose";
 
 import { login } from "../../actions/login";
+import withAuthentication from "../session/withAuthentication";
 
 class Login extends Component {
    state = {
@@ -49,7 +51,10 @@ const mapDispatchToProps = dispatch => {
    };
 };
 
-export default connect(
-   null,
-   mapDispatchToProps
+export default compose(
+   connect(
+      null,
+      mapDispatchToProps
+   ),
+   withAuthentication()
 )(Login);
