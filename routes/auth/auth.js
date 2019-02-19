@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 const router = express.Router();
 
 // Get token from incoming requests
-const verifyToken = (req, res, next) => {
+const getToken = (req, res, next) => {
    const authHeader = req.headers["authorization"];
    if (authHeader) {
       // Format : Bearer <token>. Grab only the token
@@ -16,12 +16,12 @@ const verifyToken = (req, res, next) => {
    }
 };
 
-router.post("/", verifyToken, (req, res) => {
+router.post("/", getToken, (req, res) => {
    // verify user
    jwt.verify(req.token, "secret", (err, user) => {
       if (err) {
          res.status(401).json({
-            errMsg: "Please login to view your profile"
+            errorMsg: "Please login to view your profile"
          });
       } else {
          res.send({ user });

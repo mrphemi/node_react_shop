@@ -18,7 +18,7 @@ const updateProduct = (req, res) => {
       })
       .catch(err => {
          res.status(500).json({
-            message: "An error occured",
+            errorMsg: "An error occured",
             err
          });
       });

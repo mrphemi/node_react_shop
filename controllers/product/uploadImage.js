@@ -65,12 +65,12 @@ const uploadImage = (req, res) => {
                })
                .catch(error => {
                   res.status(500).json({
-                     message: error
+                     errorMsg: error
                   });
                });
          } else {
             res.json({
-               message: "No files selected"
+               errorMsg: "No files selected"
             });
          }
       }
