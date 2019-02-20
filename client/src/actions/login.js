@@ -1,7 +1,9 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+
 import { SET_CURRENT_USER, LOGIN_ERROR } from "./types";
 import { showErr, showMsg } from "./message";
+import setAuthToken from "../utils/setAuthToken";
 
 const setCurrentUser = user => {
    return {
@@ -30,6 +32,8 @@ export const login = credentials => {
             } else {
                // Store token in local storage
                localStorage.setItem("token", token);
+               // Set Auth Token as request axios authorization header
+               setAuthToken(token);
                // Decode token to get user data
                let user = jwt_decode(token);
                dispatch(showMsg(message));
@@ -44,6 +48,8 @@ export const login = credentials => {
 export const logout = () => dispatch => {
    // Remove token from local storage
    localStorage.removeItem("token");
+   // Remove axios Auth header
+   setAuthToken(false);
    // Set current user to empty object
    dispatch(setCurrentUser({}));
 };
