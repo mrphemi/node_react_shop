@@ -13,6 +13,12 @@ class SignUp extends Component {
       password: ""
    };
 
+   componentDidMount() {
+      if (this.props.authenticated) {
+         this.props.history.push("/");
+      }
+   }
+
    onChange = e => {
       this.setState({
          [e.target.name]: e.target.value

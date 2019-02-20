@@ -11,6 +11,19 @@ class Login extends Component {
       password: ""
    };
 
+   componentDidMount() {
+      if (this.props.authenticated) {
+         this.props.history.push("/");
+      }
+   }
+
+   componentDidUpdate(prevProps) {
+      const nextProps = this.props;
+      if (nextProps.authenticated !== prevProps.authenticated) {
+         this.props.history.push("/");
+      }
+   }
+
    login = e => {
       e.preventDefault();
       this.props.login(this.state);
