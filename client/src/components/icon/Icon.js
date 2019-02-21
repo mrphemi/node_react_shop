@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 
-const Icon = ({ name }) => {
+const Icon = ({ name, onClick }) => {
    return (
-      <Fragment>
+      <span onClick={onClick}>
          <ion-icon name={name} />
-      </Fragment>
+      </span>
    );
 };
 

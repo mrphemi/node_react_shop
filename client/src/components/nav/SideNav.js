@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
 
 import Icon from "../icon/Icon";
+import withAuthentication from "../session/withAuthentication";
+import { LinksAuth, LinksNonAuth } from "./NavLinks";
 
 const Wrapper = styled.div`
    height: 100%;
@@ -16,26 +17,6 @@ const Wrapper = styled.div`
    padding: 50px;
 `;
 
-const Link = ({ className, children, to }) => (
-   <NavLink
-      to={to}
-      exact
-      activeStyle={{
-         color: "#717fe0"
-      }}
-      className={className}
-   >
-      {children}
-   </NavLink>
-);
-
-const StyledLink = styled(Link)`
-   color: black;
-   display: block;
-   text-decoration: none;
-   margin-bottom: 20px;
-`;
-
 const Close = styled.span`
    position: absolute;
    top: 15px;
@@ -43,17 +24,15 @@ const Close = styled.span`
    font-size: 15px;
 `;
 
-const SideNav = ({ display, close }) => {
+const SideNav = ({ display, close, authenticated }) => {
    return (
       <Wrapper display={display}>
-         <Close onClick={close}>
-            <Icon name="close" />
+         <Close>
+            <Icon name="close" onClick={close} />
          </Close>
-         <StyledLink to="/">HOME</StyledLink>
-         <StyledLink to="/products">SHOP</StyledLink>
-         <StyledLink to="/login">LOGIN</StyledLink>
+         {authenticated ? <LinksAuth /> : <LinksNonAuth />}
       </Wrapper>
    );
 };
 
-export default SideNav;
+export default withAuthentication()(SideNav);

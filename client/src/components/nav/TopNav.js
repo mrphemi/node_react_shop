@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
 import Icon from "../icon/Icon";
@@ -52,26 +52,20 @@ class TopNav extends Component {
 
    render() {
       return (
-         <Fragment>
+         <>
             <Nav>
                <Logo>DopeStore</Logo>
                <Right>
-                  <span>
-                     <Icon name="search" />
-                  </span>
-                  <span>
-                     <Icon name="cart" />
-                  </span>
-                  <span onClick={this.toggleSideNav}>
-                     <Icon name="list" />
-                  </span>
+                  <Icon name="search" />
+                  <Icon name="cart" />
+                  <Icon name="list" onClick={this.toggleSideNav} />
                </Right>
             </Nav>
             <SideNav
                display={this.state.showSideNav}
                close={this.closeSideNav}
             />
-         </Fragment>
+         </>
       );
    }
 }
