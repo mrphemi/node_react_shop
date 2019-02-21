@@ -1,26 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 
-const Link = ({ className, children, to }) => (
-   <NavLink
-      to={to}
-      exact
-      activeStyle={{
-         color: "#717fe0"
-      }}
-      className={className}
-   >
-      {children}
-   </NavLink>
-);
-
-const StyledLink = styled(Link)`
-   color: black;
-   display: block;
-   text-decoration: none;
-   margin-bottom: 20px;
-`;
+import { logout } from "../../actions/login";
+import NavLink from "./NavLink";
 
 const Logout = styled.span`
    display: block;
@@ -28,18 +11,39 @@ const Logout = styled.span`
    color: black;
 `;
 
-export const LinksAuth = () => (
+const LinksAuth = ({ logout, close }) => (
    <>
-      <StyledLink to="/">HOME</StyledLink>
-      <StyledLink to="/products">SHOP</StyledLink>
-      <Logout>Logout</Logout>
+      <NavLink to="/" close={close}>
+         HOME
+      </NavLink>
+      <NavLink to="/products" close={close}>
+         SHOP
+      </NavLink>
+      <Logout onClick={logout}>LOGOUT</Logout>
    </>
 );
 
-export const LinksNonAuth = () => (
+export const LinksNonAuth = ({ close }) => (
    <>
-      <StyledLink to="/">HOME</StyledLink>
-      <StyledLink to="/products">SHOP</StyledLink>
-      <StyledLink to="/login">LOGIN</StyledLink>
+      <NavLink to="/" close={close}>
+         HOME
+      </NavLink>
+      <NavLink to="/products" close={close}>
+         SHOP
+      </NavLink>
+      <NavLink to="/login" close={close}>
+         LOGIN
+      </NavLink>
    </>
 );
+
+const mapDispatchToProps = dispatch => {
+   return {
+      logout: () => dispatch(logout())
+   };
+};
+
+export default connect(
+   null,
+   mapDispatchToProps
+)(LinksAuth);

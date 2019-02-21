@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import Icon from "../icon/Icon";
 import SideNav from "./SideNav";
+
+const link = ({ className, children, to, close }) => (
+   <Link to={to} exact className={className} onClick={close}>
+      {children}
+   </Link>
+);
 
 const Nav = styled.div`
    background: #fff;
@@ -11,11 +18,13 @@ const Nav = styled.div`
    justify-content: space-between;
 `;
 
-const Logo = styled.span`
+const Logo = styled(link)`
    display: block;
    font-size: 30px;
    font-family: "Shadows Into Light", cursive;
    font-weight: bold;
+   text-decoration: none;
+   color: black;
 `;
 
 const Right = styled.div`
@@ -54,7 +63,9 @@ class TopNav extends Component {
       return (
          <>
             <Nav>
-               <Logo>DopeStore</Logo>
+               <Logo close={this.closeSideNav} to="/">
+                  DopeStore
+               </Logo>
                <Right>
                   <Icon name="search" />
                   <Icon name="cart" />

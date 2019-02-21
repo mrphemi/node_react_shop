@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Icon from "../icon/Icon";
 import withAuthentication from "../session/withAuthentication";
-import { LinksAuth, LinksNonAuth } from "./NavLinks";
+import LinksAuth, { LinksNonAuth } from "./NavLinks";
 
 const Wrapper = styled.div`
    height: 100%;
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
    background-color: #fff;
    position: absolute;
    display: ${props => (props.display ? "block" : "none")};
-   top: 88px;
+   top: 87px;
    left: 0;
    z-index: 5;
    padding: 50px;
@@ -22,6 +22,7 @@ const Close = styled.span`
    top: 15px;
    right: 20px;
    font-size: 15px;
+   cursor: pointer;
 `;
 
 const SideNav = ({ display, close, authenticated }) => {
@@ -30,7 +31,11 @@ const SideNav = ({ display, close, authenticated }) => {
          <Close>
             <Icon name="close" onClick={close} />
          </Close>
-         {authenticated ? <LinksAuth /> : <LinksNonAuth />}
+         {authenticated ? (
+            <LinksAuth close={close} />
+         ) : (
+            <LinksNonAuth close={close} />
+         )}
       </Wrapper>
    );
 };
