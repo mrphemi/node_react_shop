@@ -5,14 +5,14 @@ import { SET_CURRENT_USER, LOGIN_ERROR } from "./types";
 import { showErr, showMsg } from "./message";
 import setAuthToken from "../utils/setAuthToken";
 
-const setCurrentUser = user => {
+export const setCurrentUser = user => {
    return {
       type: SET_CURRENT_USER,
       user
    };
 };
 
-export const loginErr = () => {
+const loginErr = () => {
    return {
       type: LOGIN_ERROR
    };
