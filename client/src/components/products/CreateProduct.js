@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { compose } from "recompose";
 
-import {} from "../../actions/product/newProduct";
+import withAuthorization from "../session/withAuthorization";
+import { createProduct, uploadImage } from "../../actions/product/newProduct";
 
 class CreateProduct extends Component {
    state = {
@@ -57,9 +60,28 @@ class CreateProduct extends Component {
                id="productImg"
                onChange={this.onChangeFile}
             />
+
+            <button type="submit">Create Product</button>
          </form>
       );
    }
 }
 
-export default CreateProduct;
+const mapDispatchToProps = dispatch => {
+   return {
+      uploadImage: image => {
+         dispatch(uploadImage(image));
+      },
+      createProduct: (details, history) => {
+         dispatch(createProduct(details, history));
+      }
+   };
+};
+
+export default compose(
+   connect(
+      null,
+      mapDispatchToProps
+   ),
+   withAuthorization()
+)(CreateProduct);

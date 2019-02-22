@@ -19,6 +19,9 @@ const LinksAuth = ({ logout, close }) => (
       <NavLink to="/products" close={close}>
          SHOP
       </NavLink>
+      <NavLink to="/products/create" close={close}>
+         CREATE
+      </NavLink>
       <Logout onClick={logout}>LOGOUT</Logout>
    </>
 );

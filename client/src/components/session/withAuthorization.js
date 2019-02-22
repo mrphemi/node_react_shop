@@ -3,14 +3,17 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
 
+import verifyUser from "../../actions/verifyUser";
+
 const withAuthorization = () => Component => {
    class withAuthorization extends React.Component {
       componentDidMount() {
          if (!this.props.authenticated) {
             this.props.history.push("/login");
+         } else {
+            this.props.verify(this.props.history);
          }
       }
-
       render() {
          return <Component {...this.props} />;
       }
@@ -23,9 +26,18 @@ const withAuthorization = () => Component => {
       };
    };
 
+   const mapDispatchToProps = dispatch => {
+      return {
+         verify: history => dispatch(verifyUser(history))
+      };
+   };
+
    return compose(
       withRouter,
-      connect(mapStateToProps)
+      connect(
+         mapStateToProps,
+         mapDispatchToProps
+      )
    )(withAuthorization);
 };
 
