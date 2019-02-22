@@ -21,7 +21,7 @@ router.post("/", getToken, (req, res) => {
    jwt.verify(req.token, "secret", (err, user) => {
       if (err) {
          res.status(401).json({
-            errorMsg: "Please login to view your profile"
+            errorMsg: "Please login to continue"
          });
       } else {
          res.send({ user });

@@ -16,10 +16,7 @@ const port = 5000;
 const app = express();
 
 //connect to database
-mongoose.connect(
-   "mongodb://localhost:27017/shop",
-   { useNewUrlParser: true }
-);
+mongoose.connect("mongodb://localhost:27017/shop", { useNewUrlParser: true });
 
 mongoose.connection.once("open", () => {
    console.log("Connected to database");

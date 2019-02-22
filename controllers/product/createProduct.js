@@ -24,8 +24,9 @@ const CreateProduct = (req, res) => {
          });
       })
       .catch(err => {
-         res.status(401).json({
-            errorMsg: err.message
+         res.status(500).json({
+            errorMsg: "An error occured",
+            err
          });
       });
 };
