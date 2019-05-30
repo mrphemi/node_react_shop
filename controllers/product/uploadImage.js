@@ -14,67 +14,65 @@ const storage = multer.memoryStorage();
 
 // Check file type
 const checkFileType = (file, cb) => {
-   // Allowed extensions
-   const fileTypes = /jpeg|jpg|png/;
-   // Check file extensions
-   const extname = fileTypes.test(
-      path.extname(file.originalname).toLowerCase()
-   );
-   // Check mime type
-   const mimetype = fileTypes.test(file.mimetype);
+    // Allowed extensions
+    const fileTypes = /jpeg|jpg|png/;
+    // Check file extensions
+    const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+    // Check mime type
+    const mimetype = fileTypes.test(file.mimetype);
 
-   if (mimetype && extname) {
-      return cb(null, true);
-   } else {
-      cb("Error: Only image files can be uploaded");
-   }
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb("Error: Only image files can be uploaded");
+    }
 };
 
 // Multer upload
 const upload = multer({
-   storage,
-   fileFilter: (req, file, cb) => {
-      checkFileType(file, cb);
-   }
+    storage,
+    fileFilter: (req, file, cb) => {
+        checkFileType(file, cb);
+    }
 }).single("productImg");
 
-const uploadImage = (req, res) => {
-   // upload product image
-   upload(req, res, err => {
-      if (err) {
-         res.status(500).json({
-            message: err
-         });
-      } else {
-         if (req.file) {
-            // convert file buffer to data uri
-            const img = dUri.format(
-               path.extname(req.file.originalname),
-               req.file.buffer
-            ).content;
-            // upload image to cloudinary
-            uploader
-               .upload(img, {
-                  folder: `products/user_${req.body.userId}/`,
-                  public_id: `${Date.now()}_${req.file.fieldname}`
-               })
-               .then(result => {
-                  res.status(200).json({
-                     imageUrl: result.secure_url
-                  });
-               })
-               .catch(error => {
-                  res.status(500).json({
-                     errorMsg: error
-                  });
-               });
-         } else {
-            res.json({
-               errorMsg: "No files selected"
+const uploadImage = (req, res, next) => {
+    // upload product image
+    upload(req, res, err => {
+        if (err) {
+            res.status(500).json({
+                errorMsg: err
             });
-         }
-      }
-   });
+        } else {
+            if (req.file) {
+                // convert file buffer to data uri
+                const img = dUri.format(path.extname(req.file.originalname), req.file.buffer).content;
+                // upload image to cloudinary
+                console.log();
+                const public_id = `${Date.now()}_${req.file.fieldname}`;
+                uploader
+                    .upload(img, {
+                        folder: `products/user_${req.body.userId}/`,
+                        public_id
+                    })
+                    .then(result => {
+                        req.imageUrl = result.secure_url;
+                        req.imageId = public_id;
+                        next();
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            errorMsg: "An error occurred",
+                            err
+                        });
+                    });
+            } else {
+                res.json({
+                    errorMsg: "No files selected"
+                });
+            }
+        }
+    });
 };
 
 export default uploadImage;

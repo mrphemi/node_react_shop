@@ -26,12 +26,7 @@ router.get("/:productId", getProduct);
 // @route   POST /products
 // @desc    Creates new product
 // @access  Private
-router.post("/", createProduct);
-
-// @route   POST /products/image-upload
-// @desc    upload product image
-// @access  Private
-router.post("/image-upload", uploadImage);
+router.post("/", uploadImage, createProduct);
 
 // @route   DELETE /products
 // @desc    Deletes specified product

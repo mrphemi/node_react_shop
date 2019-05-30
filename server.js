@@ -15,11 +15,18 @@ mongoose.promise = global.promise;
 const port = 5000;
 const app = express();
 
+//  Connection strings
+const prodDB = `mongodb+srv://Test:${
+  process.env.DB_PROD_PW
+}@cluster0-c2jr4.mongodb.net/test?retryWrites=true`;
+const localDB = "mongodb://localhost:27017/shop";
+const connection = process.env.NODE_ENV === "production" ? prodDB : localDB;
+
 //connect to database
-mongoose.connect("mongodb://localhost:27017/shop", { useNewUrlParser: true });
+mongoose.connect(connection, { useNewUrlParser: true });
 
 mongoose.connection.once("open", () => {
-   console.log("Connected to database");
+    console.log("Connected to database");
 });
 
 //Enable cors
@@ -37,5 +44,5 @@ app.use("/auth", authRoute);
 
 // Listen for incoming requests
 app.listen(port, () => {
-   console.log(`Listening for requests on port ${port}`);
+    console.log(`Listening for requests on port ${port}`);
 });
