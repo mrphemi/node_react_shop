@@ -6,7 +6,7 @@ import Login from "./login/Login";
 import SignUp from "./signup/SignUp";
 import Nav from "./nav/TopNav";
 import Products from "./products/Products";
-import Product from "./products/Product";
+import ProductPage from "./products/ProductPage";
 import CreateProduct from "./products/CreateProduct";
 
 const App = () => (
@@ -18,7 +18,7 @@ const App = () => (
          <Route path="/signup" component={SignUp} />
          <Route exact path="/products" component={Products} />
          <Route exact path="/products/create" component={CreateProduct} />
-         <Route exact path="/products/:productId" component={Product} />
+         <Route exact path="/products/:productId" component={ProductPage} />
       </Switch>
    </Fragment>
 );

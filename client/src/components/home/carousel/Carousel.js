@@ -1,31 +1,29 @@
-import React, { Component } from "react";
-import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
-
-import "pure-react-carousel/dist/react-carousel.es.css";
+import React, { Component, Fragment } from "react";
+import Slider from "react-slick";
 
 import Item from "./SlideItem";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+const slide1 = process.env.PUBLIC_URL + "/assets/images/slide-01.jpg";
+const slide2 = process.env.PUBLIC_URL + "/assets/images/slide-02.jpg";
+const slide3 = process.env.PUBLIC_URL + "/assets/images/slide-03.jpg";
+
 class Carousel extends Component {
    render() {
+      const settings = {
+         infinite: true,
+         speed: 500,
+         slidesToShow: 1,
+         slidesToScroll: 1
+      };
       return (
-         <CarouselProvider
-            naturalSlideWidth={100}
-            naturalSlideHeight={100}
-            totalSlides={3}
-            isPlaying={true}
-         >
-            <Slider>
-               <Slide index={0}>
-                  <Item background="orange" />
-               </Slide>
-               <Slide index={1}>
-                  <Item background="orange" />
-               </Slide>
-               <Slide index={2}>
-                  <Item background="orange" />
-               </Slide>
-            </Slider>
-         </CarouselProvider>
+         <Slider {...settings}>
+            <Item background={slide1} />
+            <Item background={slide2} />
+            <Item background={slide3} />
+         </Slider>
       );
    }
 }

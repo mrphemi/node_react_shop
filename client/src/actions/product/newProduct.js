@@ -1,20 +1,34 @@
 import axios from "axios";
+import { getProduct } from "./getProducts";
+import { showErr, showMsg } from "../message";
 
-export const uploadImage = image => {
-   const config = {
-      headers: {
-         "content-type": "multipart/form-data"
-      }
-   };
-   return axios.post("/products/image-upload", image, config);
-};
+const createProduct = (history, details) => (dispatch, getState) => {
+   const data = new FormData();
+   data.append("productImg", details.img);
+   data.append("userId", details.id);
+   data.append("name", details.name);
+   data.append("category", details.category);
+   data.append("desc", details.desc);
+   data.append("price", details.price);
 
-export const createProduct = (details, history) => {
    axios
-      .post("/products", details)
-      .then(res => {
-         let { product } = res.data;
-         history.push(`/products/${product.id}`);
+      .post("/products", data, {
+         headers: {
+            "Content-Type": `multipart/form-data; boundary=${data._boundary}`
+         }
       })
-      .catch();
+      .then(res => {
+         let { product, message, errorMsg } = res.data;
+         if (errorMsg) {
+            dispatch(showErr(errorMsg));
+         } else {
+            dispatch(getProduct(product));
+            const productId = getState().products.product._id;
+            history.push(`/products/${productId}`);
+            dispatch(showMsg(message));
+         }
+      })
+      .catch(err => console.log(err));
 };
+
+export default createProduct;
