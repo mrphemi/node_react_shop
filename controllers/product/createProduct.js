@@ -3,7 +3,6 @@ import Product from "../../model/product";
 const CreateProduct = (req, res) => {
     // Get product details from request body
     const details = {
-        createdBy: req.body.userId,
         name: req.body.name,
         category: req.body.category,
         desc: req.body.desc,

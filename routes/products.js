@@ -3,13 +3,13 @@ const router = express.Router();
 
 import cloudinaryConfig from "../config/cloudinary";
 import {
-   getAllProducts,
-   getProduct,
-   createProduct,
-   deleteProduct,
-   updateProduct,
-   uploadImage
+  getAllProducts,
+  getProduct,
+  createProduct,
+  deleteProduct,
+  updateProduct
 } from "../controllers/product";
+import uploadImage from "../middlewares/uploadImage";
 
 router.use("/", cloudinaryConfig);
 

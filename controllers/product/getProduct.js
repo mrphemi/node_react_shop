@@ -4,7 +4,6 @@ const getProduct = (req, res) => {
     const productId = req.params.productId;
     Product.findById(productId)
         .select("-__v")
-        .populate("createdBy", "firstName lastName")
         .exec()
         .then(product => {
             if (product) {

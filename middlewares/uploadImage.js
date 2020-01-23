@@ -48,7 +48,6 @@ const uploadImage = (req, res, next) => {
                 // convert file buffer to data uri
                 const img = dUri.format(path.extname(req.file.originalname), req.file.buffer).content;
                 // upload image to cloudinary
-                console.log();
                 const public_id = `${Date.now()}_${req.file.fieldname}`;
                 uploader
                     .upload(img, {

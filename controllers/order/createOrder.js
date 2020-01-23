@@ -1,42 +1,62 @@
 import Order from "../../model/order";
-import Product from "../../model/product";
 
 const createOrder = (req, res) => {
-   // get order details from request body
-   const details = {
-      user: req.body.userId,
-      product: req.body.productId,
-      quantity: req.body.quantity
-   };
+    // create new order
+    const item = {
+        product: req.body.product,
+        quantity: req.body.quantity
+    };
+    const user = req.body.userID;
+    const id = req.body.cartID;
 
-   // create new order
-   const order = new Order(details);
-
-   // check if associated product exists
-   Product.findById(details.product)
-      .exec()
-      .then(product => {
-         if (!product) {
-            res.status(404).json({
-               message: "No product found"
+    Order.findById(id)
+        .exec()
+        .then(cart => {
+            if (cart) {
+                let products = cart.items.map(item => item.product + "");
+                if (products.includes(item.product)) {
+                    Order.findOneAndUpdate({
+                            user: user,
+                            items: {
+                                $elemMatch: { product: item.product }
+                            }
+                        }, {
+                            $inc: { "items.$.quantity": item.quantity }
+                        })
+                        .exec()
+                        .then(() =>
+                            res.status(201).json({
+                                message: "Added to cart",
+                                cart
+                            })
+                        );
+                } else {
+                    cart.items.push(item);
+                    cart.save().then(() =>
+                        res.status(201).json({
+                            message: "Added to cart",
+                            cart
+                        })
+                    );
+                }
+            } else {
+                Order.create({
+                    user: user,
+                    items: [item]
+                }).then(newCart =>
+                    res.status(201).json({
+                        message: "Added to cart",
+                        newCart
+                    })
+                );
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                errorMsg: "An error occured",
+                err
             });
-         } else {
-            //save order to db
-            return order.save();
-         }
-      })
-      .then(order => {
-         res.status(201).json({
-            message: "Order created sucessfully",
-            order
-         });
-      })
-      .catch(err => {
-         res.status(500).json({
-            errorMsg: "An error occured",
-            err
-         });
-      });
+        });
 };
 
 export default createOrder;

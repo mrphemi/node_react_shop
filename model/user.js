@@ -1,29 +1,56 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+import config from "../config";
+
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-   firstName: {
-      type: String,
+// Account type : 0 for regular user, 1 for admin
+
+const UserSchema = new Schema(
+  {
+    firstName: String,
+    lastName: String,
+    userName: String,
+    email: String,
+    password: String,
+    accountType: {
+      type: Number,
       required: true
-   },
-   lastName: {
-      type: String,
-      required: true
-   },
-   email: {
-      type: String,
-      required: true
-   },
-   password: {
-      type: String,
-      required: true
-   },
-   createdAt: {
-      type: Date,
-      default: Date.now
-   }
+    }
+  },
+  { timestamps: true }
+);
+
+/**
+ * Hash and save the user's password before
+ * saving to the database
+ *
+ * @return {null}
+ */
+UserSchema.pre("save", function() {
+  this.password = bcrypt.hashSync(this.password);
 });
 
-const User = mongoose.model("user", userSchema);
+/**
+ * Compare password with user's hashed password on file.
+ *
+ * @return {boolean}
+ */
+UserSchema.methods.comparePasswords = function(password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+/**
+ * Generate a jwt for this user.
+ *
+ * @return {string}
+ */
+UserSchema.methods.generateToken = function() {
+  return jwt.sign({ id: this._id }, config.jwtSecret);
+};
+
+const User = mongoose.model("user", UserSchema);
 
 export default User;

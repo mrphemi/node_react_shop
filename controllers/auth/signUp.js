@@ -1,53 +1,44 @@
-import bcrypt from "bcryptjs";
-
 import User from "../../model/user";
 
-const signUp = (req, res) => {
-   // get user details from request body
-   const details = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password
-   };
+/**
+ * Handle user registration endpoint
+ *
+ * @param {Object} req
+ * @param {Object} res
+ *
+ */
 
-   // create new user
-   const newUser = new User(details);
+const signUp = async (req, res) => {
+  // get user details from request body
+  const { email, password, userName } = req.body;
 
-   // check if user already exists in db
-   User.findOne({ email: details.email })
-      .exec()
-      .then(user => {
-         if (user) {
-            // user already exists in db
-            res.json({
-               errorMsg: "User already exists"
-            });
-         } else {
-            // Hash user password and store user in db
-            bcrypt.hash(details.password, 10, (err, hash) => {
-               newUser.password = hash;
-               newUser.save().then(userInfo => {
-                  // user created sucessfully
-                  res.status(201).json({
-                     message:
-                        "Sign Up successful, please log in to view your profile",
-                     user: {
-                        id: userInfo.id,
-                        email: userInfo.email,
-                        fullname: `${userInfo.firstName} ${userInfo.lastName}`
-                     }
-                  });
-               });
-            });
-         }
-      })
-      .catch(err => {
-         res.status(500).json({
-            errorMsg: "An error occured",
-            err
-         });
+  // create new user
+  const newUser = new User({ email, password, userName, accountType: 0 });
+
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      // user already exists in db
+      return res.status(403).json({
+        error: "User already exists"
       });
+    } else {
+      const user = await User.create(newUser);
+      const { id, userName } = user;
+      return res.status(201).json({
+        success: "Account registered.",
+        data: {
+          id,
+          userName
+        }
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Something went wrong"
+    });
+  }
 };
 
 export default signUp;

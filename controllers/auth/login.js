@@ -1,51 +1,51 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-
 import User from "../../model/user";
 
-const login = (req, res) => {
-    const { email, password } = req.body;
+/**
+ * Handle user login endpoint
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
 
-    // Check if user with email already exists in db
-    User.findOne({ email })
-        .exec()
-        .then(user => {
-            if (user) {
-                // validate password
-                bcrypt.compare(password, user.password).then(result => {
-                    if (result) {
-                        // sign jwt
-                        jwt.sign({
-                                id: user.id,
-                                email: user.email,
-                                fullname: `${user.firstName} ${user.lastName}`
-                            },
-                            "secret", { expiresIn: "1h" },
-                            (err, token) => {
-                                res.send({
-                                    message: "Login successful",
-                                    token
-                                });
-                            }
-                        );
-                    } else {
-                        res.json({
-                            errorMsg: "email or password incorrect.Try again"
-                        });
-                    }
-                });
-            } else {
-                res.json({
-                    errorMsg: "email or password incorrect.Try again"
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                errorMsg: "An error occured",
-                err
-            });
-        });
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if user exists and if password is valid
+    const user = await User.findOne({ email });
+
+    // Return error if user dosen't exist or password is incorrect
+    if (!user) {
+      return res.status(401).json({
+        error: "email or password incorrect"
+      });
+    }
+
+    const passwordIsCorrect = user.comparePasswords(password);
+
+    if (!passwordIsCorrect) {
+      return res.status(401).json({
+        error: "email or password incorrect"
+      });
+    }
+
+    const token = await user.generateToken();
+    const { id, userName } = user;
+
+    return res.status(200).json({
+      sucess: "Login successful",
+      data: {
+        id,
+        userName,
+        token
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Something went wrong"
+    });
+  }
 };
 
 export default login;
