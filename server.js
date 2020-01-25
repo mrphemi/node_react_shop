@@ -9,6 +9,7 @@ import Chalk from "chalk";
 import config from "./config";
 
 import productRoute from "./routes/products";
+import categoryRoute from "./routes/category";
 import orderRoute from "./routes/orders";
 import signupRoute from "./routes/auth/signUp";
 import loginRoute from "./routes/auth/login";
@@ -35,6 +36,7 @@ app.use(express.json());
 
 // Routes
 app.use("/products", productRoute);
+app.use("/category", categoryRoute);
 app.use("/orders", orderRoute);
 app.use("/register", signupRoute);
 app.use("/login", loginRoute);

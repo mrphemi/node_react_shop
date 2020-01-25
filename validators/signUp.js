@@ -25,12 +25,7 @@ export default async (req, res, next) => {
     return next();
   } catch (error) {
     return res.status(422).json({
-      error: "Validation failed.",
-      data: {
-        errors: {
-          [error.path]: error.message
-        }
-      }
+      error: error.message
     });
   }
 };

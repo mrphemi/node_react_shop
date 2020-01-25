@@ -20,3 +20,14 @@ export const RegisterSchema = Yup.object().shape({
     .max(10)
     .required()
 });
+
+export const CategorySchema = Yup.object().shape({
+  name: Yup.string().required()
+});
+
+export const ProductSchema = Yup.object().shape({
+  name: Yup.string().required(),
+  category: Yup.string().required(),
+  desc: Yup.string().required(),
+  price: Yup.number().required()
+});

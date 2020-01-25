@@ -10,7 +10,7 @@ import {
   updateProduct
 } from "../controllers/product";
 import uploadImage from "../middlewares/uploadImage";
-
+import productValidator from "../validators/product";
 router.use("/", cloudinaryConfig);
 
 // @route   GET /products
@@ -26,7 +26,7 @@ router.get("/:productId", getProduct);
 // @route   POST /products
 // @desc    Creates new product
 // @access  Private
-router.post("/", uploadImage, createProduct);
+router.post("/", uploadImage, productValidator, createProduct);
 
 // @route   DELETE /products
 // @desc    Deletes specified product

@@ -1,6 +1,6 @@
-import { LoginSchema } from "../validation-schemas";
+import { CategorySchema } from "../validation-schemas";
 /**
- * Validates the login request
+ * Validates the create category request
  *
  * @param {Object} req
  *
@@ -11,11 +11,10 @@ import { LoginSchema } from "../validation-schemas";
  * @return {Object}
  */
 export default async (req, res, next) => {
-  const { email, password } = req.body;
+  const { name } = req.body;
   try {
-    await LoginSchema.validate({
-      email,
-      password
+    await CategorySchema.validate({
+      name
     });
     return next();
   } catch (error) {

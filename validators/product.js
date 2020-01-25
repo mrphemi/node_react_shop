@@ -1,6 +1,6 @@
-import { LoginSchema } from "../validation-schemas";
+import { ProductSchema } from "../validation-schemas";
 /**
- * Validates the login request
+ * Validates the create product request
  *
  * @param {Object} req
  *
@@ -11,11 +11,13 @@ import { LoginSchema } from "../validation-schemas";
  * @return {Object}
  */
 export default async (req, res, next) => {
-  const { email, password } = req.body;
+  const { name, desc, category, price } = req.body;
   try {
-    await LoginSchema.validate({
-      email,
-      password
+    await ProductSchema.validate({
+      name,
+      desc,
+      category,
+      price
     });
     return next();
   } catch (error) {

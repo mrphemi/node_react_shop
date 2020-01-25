@@ -1,34 +1,35 @@
 import Product from "../../model/product";
 
-const CreateProduct = (req, res) => {
-    // Get product details from request body
-    const details = {
-        name: req.body.name,
-        category: req.body.category,
-        desc: req.body.desc,
-        price: req.body.price,
-        image: req.imageUrl,
-        imageId: req.imageId
-    };
+const CreateProduct = async (req, res) => {
+  const { name, category, desc, price, image, imageId } = req.body;
+  // Get product details from request body
+  const details = {
+    name,
+    category,
+    desc,
+    price,
+    image,
+    imageId
+  };
 
-    // Create new product
-    const newProduct = new Product(details);
+  // Create new product
+  const newProduct = new Product(details);
 
+  try {
     // Save new product to db
-    newProduct
-        .save()
-        .then(product => {
-            res.status(201).json({
-                message: "Product created sucessfully",
-                product
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                errorMsg: "An error occured",
-                err
-            });
-        });
+    const product = await Product.create(newProduct);
+    const { id, name } = product;
+    return res.status(201).json({
+      success: "Product Created Sucessfully",
+      data: {
+        product
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Something went wrong"
+    });
+  }
 };
 
 export default CreateProduct;
