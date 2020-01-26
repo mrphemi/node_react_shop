@@ -17,7 +17,7 @@ import loginRoute from "./routes/auth/login";
 const port = config.port;
 const app = express();
 
-mongoose.promise = global.promise;
+mongoose.Promise = global.Promise;
 //connect to database
 mongoose.connect(config.databaseUrl, { useNewUrlParser: true });
 

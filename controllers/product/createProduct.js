@@ -1,5 +1,12 @@
 import Product from "../../model/product";
 
+/**
+ * Handles Product Creation
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+
 const CreateProduct = async (req, res) => {
   const { name, category, desc, price, image, imageId } = req.body;
   // Get product details from request body
