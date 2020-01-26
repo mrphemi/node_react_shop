@@ -55,7 +55,6 @@ const uploadImage = (req, res, next) => {
             public_id
           })
           .then(result => {
-            console.log(result);
             req.body.image = result.secure_url;
             req.body.imageId = result.public_id;
             next();

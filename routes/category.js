@@ -3,6 +3,8 @@ const router = express.Router();
 
 import { createCategory } from "../controllers/category";
 
+import { isAuthenticated, isAdmin } from "../middlewares/auth";
+
 import CategoryValidator from "../validators/category";
 
 // @route   GET /category
@@ -13,7 +15,8 @@ import CategoryValidator from "../validators/category";
 // @route   POST /category
 // @desc    Creates new category
 // @access  Private
-router.post("/", CategoryValidator, createCategory);
+// admin    True
+router.post("/", isAuthenticated, isAdmin, CategoryValidator, createCategory);
 
 // @route   DELETE /category
 // @desc    Deletes specified category

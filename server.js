@@ -33,6 +33,8 @@ app.use(cors());
 
 // Parse incoming json requests
 app.use(express.json());
+// for encoded bodies
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/products", productRoute);
