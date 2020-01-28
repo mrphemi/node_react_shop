@@ -1,28 +1,33 @@
-import Product from "../../model/product";
+import Chalk from "chalk";
 
-const getProduct = (req, res) => {
-    const productId = req.params.productId;
-    Product.findById(productId)
-        .select("-__v")
-        .exec()
-        .then(product => {
-            if (product) {
-                res.status(200).json({
-                    message: "Product retrieved sucessfully",
-                    product
-                });
-            } else {
-                res.status(404).json({
-                    message: "No matches for product"
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                errorMsg: "An error occured",
-                err
-            });
-        });
+import Product from "../../model/product";
+import { isValidMongoId } from "../../helpers";
+
+const getProduct = async (req, res) => {
+  const { productId } = req.params;
+  try {
+    // check if id is a valid mongo id
+    if (!isValidMongoId(productId)) {
+      console.log(Chalk.red("Invalid product id"));
+    }
+
+    const product = await Product.findById(productId).select("name category price image");
+
+    if (product) {
+      res.status(200).json({
+        success: "Product retrieved sucessfully",
+        product
+      });
+    } else {
+      res.status(404).json({
+        success: "No matches for product"
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: "Something went wrong"
+    });
+  }
 };
 
 export default getProduct;

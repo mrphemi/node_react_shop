@@ -1,16 +1,16 @@
-import Product from "../../model/product";
+import Category from "../../model/category";
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({}).select("name category price image");
-    if (products.length > 0) {
+    const categories = await Category.find({}).select("name id");
+    if (categories.length > 0) {
       res.status(200).json({
-        success: "Products retrieved",
-        products
+        success: "Categories retrieved",
+        categories
       });
     } else {
       res.status(404).json({
-        success: "No products found"
+        error: "No Category found"
       });
     }
   } catch (error) {

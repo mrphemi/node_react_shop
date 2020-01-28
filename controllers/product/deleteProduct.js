@@ -2,6 +2,7 @@ import cloudinary from "cloudinary";
 import Chalk from "chalk";
 
 import Product from "../../model/product";
+import { isValidMongoId } from "../../helpers";
 
 // cloudinary uploader
 const uploader = cloudinary.v2.uploader;
@@ -16,6 +17,11 @@ const uploader = cloudinary.v2.uploader;
 const deleteProduct = async (req, res) => {
   const { productId } = req.params;
 
+  // check if id is a valid mongo id
+  if (!isValidMongoId(productId)) {
+    console.log(Chalk.red("Invalid product id"));
+  }
+
   try {
     const product = await Product.findByIdAndDelete(productId);
     if (product) {
@@ -29,11 +35,10 @@ const deleteProduct = async (req, res) => {
     } else {
       // Product not found
       res.status(404).json({
-        error: "No matches for product"
+        error: "No matches for this product"
       });
     }
   } catch (error) {
-    console.log(error.message);
     res.status(500).json({
       error: "Something went wrong"
     });
