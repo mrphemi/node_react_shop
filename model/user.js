@@ -48,9 +48,9 @@ UserSchema.methods.comparePasswords = function(password) {
  * @return {string}
  */
 UserSchema.methods.generateToken = function() {
-  return jwt.sign({ id: this._id }, config.jwtSecret);
+  return jwt.sign({ id: this._id }, config.jwtSecret, { expiresIn: "7d" });
 };
 
-const User = mongoose.model("user", UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 export default User;

@@ -14,8 +14,8 @@ import User from "../model/user";
  * @return {Function}
  */
 
-//  Check if user is authenticated
-export const isAuthenticated = async (req, res, next) => {
+// Check if user is authenticated
+export const requireSignIn = async (req, res, next) => {
   try {
     const token = req.body.access_token || req.headers["access_token"] || req.query.access_token;
     const payload = jwt.verify(token, config.jwtSecret);
@@ -31,7 +31,7 @@ export const isAuthenticated = async (req, res, next) => {
 };
 
 // Check is user account is an admin(admin accounts has an accountTYpe of 1)
-export const isAdmin = (req, res, next) => {
+export const requireAdmin = (req, res, next) => {
   try {
     const authenticatedUser = req.authUser;
     const { accountType } = authenticatedUser;

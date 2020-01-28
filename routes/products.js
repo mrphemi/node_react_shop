@@ -9,7 +9,7 @@ import {
   deleteProduct,
   updateProduct
 } from "../controllers/product";
-import { isAuthenticated, isAdmin } from "../middlewares/auth";
+import { requireSignIn, requireAdmin } from "../middlewares/auth";
 import uploadImage from "../middlewares/uploadImage";
 import productValidator from "../validators/product";
 
@@ -29,13 +29,13 @@ router.get("/:productId", getProduct);
 // @desc    Creates new product
 // @access  Private
 // @admin_resource    True
-router.post("/", isAuthenticated, isAdmin, uploadImage, productValidator, createProduct);
+router.post("/", requireSignIn, requireAdmin, uploadImage, productValidator, createProduct);
 
 // @route   DELETE /products
 // @desc    Deletes specified product
 // @access  Private
 // @admin_resource    True
-router.delete("/:productId", isAuthenticated, isAdmin, deleteProduct);
+router.delete("/:productId", requireSignIn, requireAdmin, deleteProduct);
 
 // @route   PATCH /products
 // @desc    Updates specified product

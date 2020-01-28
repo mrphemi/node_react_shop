@@ -21,13 +21,8 @@ const createCategory = async (req, res) => {
       });
     } else {
       const category = await Category.create(newCategory);
-      const { id, name } = category;
       return res.status(201).json({
-        success: "Category Created Sucessfully",
-        data: {
-          id,
-          name
-        }
+        success: "Category Created Sucessfully"
       });
     }
   } catch (error) {
