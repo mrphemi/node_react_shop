@@ -13,7 +13,7 @@ const signUp = async (req, res) => {
   const { email, password, userName } = req.body;
 
   // create new user
-  const newUser = new User({ email, password, userName, accountType: 0 });
+  const newUser = new User({ email, password, userName });
 
   try {
     const existingUser = await User.findOne({ email });

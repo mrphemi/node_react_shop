@@ -11,7 +11,9 @@ const getProduct = async (req, res) => {
       console.log(Chalk.red("Invalid product id"));
     }
 
-    const product = await Product.findById(productId).select("name category price image");
+    const product = await Product.findById(productId).select(
+      "name category price image desc quantity"
+    );
 
     if (product) {
       res.status(200).json({

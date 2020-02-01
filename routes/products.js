@@ -7,11 +7,11 @@ import {
   getProduct,
   createProduct,
   deleteProduct,
-  updateProduct
+  updateProductDetails
 } from "../controllers/product";
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
 import uploadImage from "../middlewares/uploadImage";
-import productValidator from "../validators/product";
+import { createProductValidator, updateProductValidator } from "../validators";
 
 router.use("/", cloudinaryConfig);
 
@@ -29,7 +29,14 @@ router.get("/:productId", getProduct);
 // @desc    Creates new product
 // @access  Private
 // @admin_resource    True
-router.post("/", requireSignIn, requireAdmin, uploadImage, productValidator, createProduct);
+router.post(
+  "/",
+  requireSignIn,
+  requireAdmin,
+  uploadImage,
+  createProductValidator,
+  createProduct
+);
 
 // @route   DELETE /products
 // @desc    Deletes specified product
@@ -38,9 +45,15 @@ router.post("/", requireSignIn, requireAdmin, uploadImage, productValidator, cre
 router.delete("/:productId", requireSignIn, requireAdmin, deleteProduct);
 
 // @route   PATCH /products
-// @desc    Updates specified product
+// @desc    Updates specified product details
 // @access  Private
 // @admin_resource   True
-router.patch("/:productId", updateProduct);
+router.put(
+  "/:productId",
+  requireSignIn,
+  requireAdmin,
+  updateProductValidator,
+  updateProductDetails
+);
 
 export default router;

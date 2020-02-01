@@ -9,8 +9,9 @@ const getAllProducts = async (req, res) => {
         products
       });
     } else {
-      res.status(404).json({
-        success: "No products found"
+      res.json({
+        success: "No products found",
+        products
       });
     }
   } catch (error) {

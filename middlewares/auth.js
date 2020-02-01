@@ -17,7 +17,10 @@ import User from "../model/user";
 // Check if user is authenticated
 export const requireSignIn = async (req, res, next) => {
   try {
-    const token = req.body.access_token || req.headers["access_token"] || req.query.access_token;
+    const token =
+      req.body.access_token ||
+      req.headers["access_token"] ||
+      req.query.access_token;
     const payload = jwt.verify(token, config.jwtSecret);
     const authUser = await User.findById(payload.id);
 

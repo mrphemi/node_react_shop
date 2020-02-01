@@ -18,16 +18,26 @@ export const RegisterSchema = Yup.object().shape({
   password: Yup.string()
     .min(6)
     .max(10)
-    .required()
+    .required(),
+  accountType: Yup.number()
 });
 
 export const CategorySchema = Yup.object().shape({
   name: Yup.string().required()
 });
 
-export const ProductSchema = Yup.object().shape({
+export const createProductSchema = Yup.object().shape({
   name: Yup.string().required(),
   category: Yup.string().required(),
   desc: Yup.string().required(),
-  price: Yup.number().required()
+  price: Yup.number().required(),
+  quantity: Yup.number()
+});
+
+export const updateProductSchema = Yup.object().shape({
+  name: Yup.string(),
+  category: Yup.string(),
+  desc: Yup.string(),
+  price: Yup.number(),
+  quantity: Yup.number()
 });

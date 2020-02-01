@@ -1,4 +1,4 @@
-import { ProductSchema } from "../validation-schemas";
+import { createProductSchema } from "../validation-schemas";
 /**
  * Validates the create product request
  *
@@ -13,7 +13,7 @@ import { ProductSchema } from "../validation-schemas";
 export default async (req, res, next) => {
   const { name, desc, category, price } = req.body;
   try {
-    await ProductSchema.validate({
+    await createProductSchema.validate({
       name,
       desc,
       category,

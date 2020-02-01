@@ -1,11 +1,15 @@
 import express from "express";
 const router = express.Router();
 
-import { createCategory, deleteCategory, getAll } from "../controllers/category";
+import {
+  createCategory,
+  deleteCategory,
+  getAll
+} from "../controllers/category";
 
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
 
-import CategoryValidator from "../validators/category";
+import { createCategoryValidator } from "../validators";
 
 // @route   GET /category
 // @desc    Retrieve all categories
@@ -16,7 +20,13 @@ router.get("/", getAll);
 // @desc    Creates new category
 // @access  Private
 // admin_resource    True
-router.post("/", requireSignIn, requireAdmin, CategoryValidator, createCategory);
+router.post(
+  "/",
+  requireSignIn,
+  requireAdmin,
+  createCategoryValidator,
+  createCategory
+);
 
 // @route   DELETE /category
 // @desc    Deletes specified category

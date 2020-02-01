@@ -46,12 +46,15 @@ const uploadImage = (req, res, next) => {
     } else {
       if (req.file) {
         // convert file buffer to data uri
-        const img = dUri.format(path.extname(req.file.originalname), req.file.buffer).content;
+        const img = dUri.format(
+          path.extname(req.file.originalname),
+          req.file.buffer
+        ).content;
         // upload image to cloudinary
         const public_id = `${Date.now()}_${req.file.fieldname}`;
         uploader
           .upload(img, {
-            folder: `products/`,
+            folder: `ecommerce/products/`,
             public_id
           })
           .then(result => {

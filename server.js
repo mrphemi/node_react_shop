@@ -37,11 +37,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/products", productRoute);
-app.use("/category", categoryRoute);
-app.use("/orders", orderRoute);
-app.use("/register", signupRoute);
-app.use("/login", loginRoute);
+app.use("/api/products", productRoute);
+app.use("/api/category", categoryRoute);
+app.use("/api/orders", orderRoute);
+app.use("/api/register", signupRoute);
+app.use("/api/login", loginRoute);
 
 // Listen for incoming requests
 app.listen(port, () => {
