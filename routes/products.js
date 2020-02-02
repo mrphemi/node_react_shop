@@ -1,4 +1,6 @@
 import express from "express";
+import multer from "multer";
+
 const router = express.Router();
 
 import cloudinaryConfig from "../config/cloudinary";
@@ -11,7 +13,19 @@ import {
 } from "../controllers/product";
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
 import uploadImage from "../middlewares/uploadImage";
+import checkFileType from "../helpers/fileFilter";
 import { createProductValidator, updateProductValidator } from "../validators";
+
+// Multer storage engine
+const storage = multer.memoryStorage();
+
+// Multer image upload
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  }
+}).single("product_img");
 
 router.use("/", cloudinaryConfig);
 
@@ -31,10 +45,11 @@ router.get("/:productId", getProduct);
 // @admin_resource    True
 router.post(
   "/",
+  upload,
   requireSignIn,
   requireAdmin,
-  uploadImage,
   createProductValidator,
+  uploadImage,
   createProduct
 );
 

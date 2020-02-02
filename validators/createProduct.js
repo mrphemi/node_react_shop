@@ -11,14 +11,8 @@ import { createProductSchema } from "../validation-schemas";
  * @return {Object}
  */
 export default async (req, res, next) => {
-  const { name, desc, category, price } = req.body;
   try {
-    await createProductSchema.validate({
-      name,
-      desc,
-      category,
-      price
-    });
+    await createProductSchema.validate(req.body);
     return next();
   } catch (error) {
     return res.status(422).json({

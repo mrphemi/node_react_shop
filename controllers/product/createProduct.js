@@ -1,4 +1,5 @@
 import Product from "../../model/product";
+import { handleError } from "../../helpers";
 
 /**
  * Handles Product Creation
@@ -8,20 +9,8 @@ import Product from "../../model/product";
  */
 
 const CreateProduct = async (req, res) => {
-  const { name, category, desc, price, image, imageId } = req.body;
-  // Get product details from request body
-  const details = {
-    name,
-    category,
-    desc,
-    price,
-    image,
-    imageId
-  };
-
   // Create new product
-  const newProduct = new Product(details);
-
+  const newProduct = new Product(req.body);
   try {
     // Save new product to db
     const product = await Product.create(newProduct);
@@ -29,9 +18,7 @@ const CreateProduct = async (req, res) => {
       success: "Product Created Sucessfully"
     });
   } catch (error) {
-    res.status(500).json({
-      error: "Something went wrong"
-    });
+    handleError(res, error);
   }
 };
 

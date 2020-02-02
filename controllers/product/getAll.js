@@ -1,4 +1,5 @@
 import Product from "../../model/product";
+import { handleError } from "../../helpers";
 
 const getAllProducts = async (req, res) => {
   try {
@@ -15,9 +16,7 @@ const getAllProducts = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({
-      error: "Something went wrong"
-    });
+    handleError(res, error);
   }
 };
 

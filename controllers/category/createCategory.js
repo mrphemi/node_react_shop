@@ -1,4 +1,5 @@
 import Category from "../../model/category";
+import { handleError } from "../../helpers";
 
 /**
  * Handles Category Creation
@@ -26,9 +27,7 @@ const createCategory = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({
-      error: "Something went wrong"
-    });
+    handleError(res, error);
   }
 };
 

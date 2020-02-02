@@ -12,14 +12,14 @@ const productSchema = new Schema(
       ref: "Category",
       autopopulate: { select: "name" }
     },
-    desc: String,
+    description: String,
     price: Number,
     quantity: {
       type: Number,
       default: 1
     },
     image: String,
-    imageId: String
+    image_id: String
   },
   { timestamps: true }
 );

@@ -13,15 +13,8 @@ import { RegisterSchema } from "../validation-schemas";
  * @return {Object}
  */
 export default async (req, res, next) => {
-  const { userName, email, password } = req.body;
-
   try {
-    await RegisterSchema.validate({
-      userName,
-      email,
-      password
-    });
-
+    await RegisterSchema.validate(req.body, { strict: true });
     return next();
   } catch (error) {
     return res.status(422).json({

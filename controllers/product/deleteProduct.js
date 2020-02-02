@@ -2,7 +2,7 @@ import cloudinary from "cloudinary";
 import Chalk from "chalk";
 
 import Product from "../../model/product";
-import { isValidMongoId } from "../../helpers";
+import { isValidMongoId, handleError } from "../../helpers";
 
 // cloudinary uploader
 const uploader = cloudinary.v2.uploader;
@@ -26,7 +26,7 @@ const deleteProduct = async (req, res) => {
     const product = await Product.findByIdAndDelete(productId);
     if (product) {
       //  Delete product image from cloudinary
-      uploader.destroy(product.imageId, function(result) {
+      uploader.destroy(product.image_id, function(result) {
         console.log(Chalk.red("Image deleted"));
       });
       return res.status(200).json({
@@ -39,9 +39,7 @@ const deleteProduct = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({
-      error: "Something went wrong"
-    });
+    handleError(res, error);
   }
 };
 

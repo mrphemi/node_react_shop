@@ -1,7 +1,7 @@
 import Chalk from "chalk";
 
 import Product from "../../model/product";
-import { isValidMongoId } from "../../helpers";
+import { isValidMongoId, handleError } from "../../helpers";
 
 const getProduct = async (req, res) => {
   const { productId } = req.params;
@@ -12,7 +12,7 @@ const getProduct = async (req, res) => {
     }
 
     const product = await Product.findById(productId).select(
-      "name category price image desc quantity"
+      "name category price image description quantity"
     );
 
     if (product) {
@@ -26,9 +26,7 @@ const getProduct = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({
-      error: "Something went wrong"
-    });
+    handleError(res, error);
   }
 };
 

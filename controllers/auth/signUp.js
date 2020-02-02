@@ -1,4 +1,5 @@
 import User from "../../model/user";
+import { handleError } from "../../helpers";
 
 /**
  * Handle user registration endpoint
@@ -9,13 +10,11 @@ import User from "../../model/user";
  */
 
 const signUp = async (req, res) => {
-  // get user details from request body
-  const { email, password, userName } = req.body;
-
   // create new user
-  const newUser = new User({ email, password, userName });
+  const newUser = new User(req.body);
 
   try {
+    const { email } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       // user already exists in db
@@ -34,10 +33,7 @@ const signUp = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      error: "Something went wrong"
-    });
+    handleError(res, error);
   }
 };
 

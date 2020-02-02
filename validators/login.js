@@ -13,10 +13,13 @@ import { LoginSchema } from "../validation-schemas";
 export default async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    await LoginSchema.validate({
-      email,
-      password
-    });
+    await LoginSchema.validate(
+      {
+        email,
+        password
+      },
+      { strict: true }
+    );
     return next();
   } catch (error) {
     return res.status(422).json({

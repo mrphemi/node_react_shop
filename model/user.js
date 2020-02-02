@@ -10,12 +10,12 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
-    firstName: String,
-    lastName: String,
-    userName: String,
+    first_name: String,
+    last_name: String,
+    user_name: String,
     email: String,
     password: String,
-    accountType: {
+    account_type: {
       type: Number,
       default: 0
     }

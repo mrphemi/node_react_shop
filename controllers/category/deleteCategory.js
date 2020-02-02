@@ -1,7 +1,7 @@
 import Chalk from "chalk";
 
 import Category from "../../model/category";
-import { isValidMongoId } from "../../helpers";
+import { isValidMongoId, handleError } from "../../helpers";
 
 /**
  * Handles Category deletion
@@ -31,9 +31,7 @@ const deleteCategory = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({
-      error: "Something went wrong"
-    });
+    handleError(res, error);
   }
 };
 
