@@ -19,7 +19,9 @@ const app = express();
 
 mongoose.Promise = global.Promise;
 //connect to database
-mongoose.connect(config.databaseUrl, { useNewUrlParser: true });
+mongoose.connect(config.databaseUrl, { useNewUrlParser: true }).catch(err => {
+  console.log(err);
+});
 
 mongoose.connection.once("open", () => {
   console.log("Connected to database");
