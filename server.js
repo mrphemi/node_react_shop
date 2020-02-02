@@ -43,6 +43,10 @@ app.use("/api/orders", orderRoute);
 app.use("/api/register", signupRoute);
 app.use("/api/login", loginRoute);
 
+app.get("/", function(req, res) {
+  res.send("Welcome to reactshop api");
+});
+
 // Listen for incoming requests
 app.listen(port, () => {
   console.log(`${Chalk.blue(`Project running on http://localhost:${port}`)}`);
