@@ -3,6 +3,11 @@ import Datauri from "datauri";
 import cloudinary from "cloudinary";
 import { handleError } from "../helpers";
 
+const cloudinaryFolder =
+  process.env.NODE_ENV === "production"
+    ? "ecommerce_prod/products"
+    : "ecommerce/products";
+
 // datauri instance
 const dUri = new Datauri();
 
@@ -33,7 +38,7 @@ const uploadImage = (req, res, next) => {
     const public_id = `${Date.now()}_${req.file.fieldname}`;
     uploader
       .upload(img, {
-        folder: `ecommerce/products/`,
+        folder: cloudinaryFolder,
         public_id
       })
       .then(result => {
