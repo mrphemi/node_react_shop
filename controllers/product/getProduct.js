@@ -3,6 +3,13 @@ import Chalk from "chalk";
 import Product from "../../model/product";
 import { isValidMongoId, handleError } from "../../helpers";
 
+/**
+ * Fetches single product from db
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+
 const getProduct = async (req, res) => {
   const { productId } = req.params;
   try {

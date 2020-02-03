@@ -4,6 +4,7 @@ const router = express.Router();
 import {
   createCategory,
   deleteCategory,
+  updateCategory,
   getAll
 } from "../controllers/category";
 
@@ -34,9 +35,16 @@ router.post(
 // admin_resource    True
 router.delete("/:categoryId", requireSignIn, requireAdmin, deleteCategory);
 
-// @route   PATCH /category
+// @route   Put /category
 // @desc    Updates specified category
 // @access  Private
-// router.patch("/:categoryId", updateCategory);
+// admin_resource    True
+router.put(
+  "/:categoryId",
+  requireSignIn,
+  requireAdmin,
+  createCategoryValidator,
+  updateCategory
+);
 
 export default router;

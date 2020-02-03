@@ -1,6 +1,13 @@
 import Product from "../../model/product";
 import { handleError } from "../../helpers";
 
+/**
+ * Fetches all products from db
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+
 const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({}).select("name category price image");

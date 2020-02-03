@@ -9,8 +9,20 @@ const dUri = new Datauri();
 // cloudinary uploader
 const uploader = cloudinary.v2.uploader;
 
+/**
+ * Converts incoming req file(image file) to dataUri and
+ * uploads image to cloudinary
+ *
+ *
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ *
+ * @return {Function}
+ */
+
 const uploadImage = (req, res, next) => {
-  // check if file wa part of request data
+  // check if file is part of request data
   if (req.file) {
     // convert file buffer to data uri
     const img = dUri.format(
@@ -27,7 +39,7 @@ const uploadImage = (req, res, next) => {
       .then(result => {
         req.body.image = result.secure_url;
         req.body.image_id = result.public_id;
-        next();
+        return next();
       })
       .catch(err => {
         handleError(res, err);

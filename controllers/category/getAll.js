@@ -1,6 +1,13 @@
 import Category from "../../model/category";
 import { handleError } from "../../helpers";
 
+/**
+ * Fetches all categories from db
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+
 const getAllProducts = async (req, res) => {
   try {
     const categories = await Category.find({}).select("name id");

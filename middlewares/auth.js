@@ -50,7 +50,7 @@ export const requireAdmin = (req, res, next) => {
   try {
     const authenticatedUser = req.authUser;
     const { account_type } = authenticatedUser;
-    // Check if user is admin(has accountType of 1)
+    // Check if user is admin
     if (account_type !== 1) {
       return res.status(403).json({
         error: "Unauthorized. Admin Resource"

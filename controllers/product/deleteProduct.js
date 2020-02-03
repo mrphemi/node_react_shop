@@ -8,7 +8,7 @@ import { isValidMongoId, handleError } from "../../helpers";
 const uploader = cloudinary.v2.uploader;
 
 /**
- * Handles Product Creation
+ * Handles Product deletion
  *
  * @param {Object} req
  * @param {Object} res
