@@ -35,7 +35,7 @@ router.post(
 // admin_resource    True
 router.delete("/:categoryId", requireSignIn, requireAdmin, deleteCategory);
 
-// @route   Put /category
+// @route   PUT /category
 // @desc    Updates specified category
 // @access  Private
 // admin_resource    True

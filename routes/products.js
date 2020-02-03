@@ -60,24 +60,24 @@ router.post(
 // @admin_resource    True
 router.delete("/:productId", requireSignIn, requireAdmin, deleteProduct);
 
-// @route   Put /products
+// @route   PUT /products
 // @desc    Updates specified product details
 // @access  Private
 // @admin_resource   True
 router.put(
-  "/:productId/update_product_details",
+  "/update_product_details/:productId",
   requireSignIn,
   requireAdmin,
   updateProductValidator,
   updateProductDetails
 );
 
-// @route   Put /products
+// @route   PUT /products
 // @desc    Updates specified product details
 // @access  Private
 // @admin_resource   True
 router.put(
-  "/:productId/update_product_image",
+  "/update_product_image/:productId",
   upload,
   requireSignIn,
   requireAdmin,

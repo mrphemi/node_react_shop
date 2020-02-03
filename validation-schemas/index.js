@@ -16,6 +16,7 @@ export const LoginSchema = Yup.object().shape({
 export const RegisterSchema = Yup.object().shape({
   user_name: Yup.string()
     .typeError("user_name must be a valid string")
+    .trim()
     .required("user_name is required"),
   email: Yup.string()
     .typeError("email must be a valid string")
@@ -32,6 +33,23 @@ export const RegisterSchema = Yup.object().shape({
     .positive("account_type must be greater than zero")
     .lessThan(2, "account_type must be less than 2")
     .integer()
+});
+
+// User
+export const updateUserSchema = Yup.object().shape({
+  first_name: Yup.string()
+    .typeError("user_name must be a valid string")
+    .trim(),
+  last_name: Yup.string()
+    .typeError("user_name must be a valid string")
+    .trim(),
+  user_name: Yup.string()
+    .typeError("user_name must be a valid string")
+    .trim(),
+  email: Yup.string()
+    .typeError("email must be a valid string")
+    .email("email must be a valid email")
+    .trim()
 });
 
 // Category

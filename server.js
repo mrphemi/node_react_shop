@@ -13,6 +13,7 @@ import categoryRoute from "./routes/category";
 import orderRoute from "./routes/orders";
 import signupRoute from "./routes/auth/signUp";
 import loginRoute from "./routes/auth/login";
+import userRoute from "./routes/users";
 
 const port = config.port;
 const app = express();
@@ -44,6 +45,7 @@ app.use("/api/category", categoryRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/register", signupRoute);
 app.use("/api/login", loginRoute);
+app.use("/api/users", userRoute);
 
 app.get("/", function(req, res) {
   res.send("Welcome to reactshop api");

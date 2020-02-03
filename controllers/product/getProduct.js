@@ -29,7 +29,7 @@ const getProduct = async (req, res) => {
       });
     } else {
       res.status(404).json({
-        success: "No matches for product"
+        error: "No matches for product"
       });
     }
   } catch (error) {
