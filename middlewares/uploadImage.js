@@ -50,9 +50,13 @@ const uploadImage = (req, res, next) => {
         handleError(res, err);
       });
   } else {
-    res.status(422).json({
-      error: "No files selected"
-    });
+    if (req.method === "POST") {
+      res.status(422).json({
+        error: "No files selected"
+      });
+    } else {
+      return next();
+    }
   }
 };
 

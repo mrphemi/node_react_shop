@@ -18,6 +18,14 @@ export const RegisterSchema = Yup.object().shape({
     .typeError("user_name must be a valid string")
     .trim()
     .required("user_name is required"),
+  first_name: Yup.string()
+    .typeError("first_name must be a valid string")
+    .trim()
+    .required("first_name is required"),
+  last_name: Yup.string()
+    .typeError("last_name must be a valid string")
+    .trim()
+    .required("last_name is required"),
   email: Yup.string()
     .typeError("email must be a valid string")
     .email("email must be a valid email")

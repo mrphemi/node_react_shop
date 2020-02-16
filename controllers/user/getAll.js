@@ -10,10 +10,12 @@ import { handleError } from "../../helpers";
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select("id email account_type");
+    const users = await User.find({}).select(
+      "first_name last_name user_name email account_type"
+    );
     if (users.length > 0) {
       res.status(200).json({
-        success: "Users retrieved",
+        success: "Users retrieved successfully",
         users
       });
     } else {

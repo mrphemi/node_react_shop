@@ -9,8 +9,7 @@ import {
   getProduct,
   createProduct,
   deleteProduct,
-  updateProductDetails,
-  updateProductImg
+  updateProductDetails
 } from "../controllers/product";
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
 import uploadImage from "../middlewares/uploadImage";
@@ -65,25 +64,13 @@ router.delete("/:productId", requireSignIn, requireAdmin, deleteProduct);
 // @access  Private
 // @admin_resource   True
 router.put(
-  "/update_product_details/:productId",
-  requireSignIn,
-  requireAdmin,
-  updateProductValidator,
-  updateProductDetails
-);
-
-// @route   PUT /products
-// @desc    Updates specified product details
-// @access  Private
-// @admin_resource   True
-router.put(
-  "/update_product_image/:productId",
+  "/update_product/:productId",
   upload,
   requireSignIn,
   requireAdmin,
   updateProductValidator,
   uploadImage,
-  updateProductImg
+  updateProductDetails
 );
 
 export default router;

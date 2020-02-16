@@ -1,25 +1,46 @@
 import express from "express";
 
 import updateUserSchema from "../validators/updateUser";
-import { requireSignIn, requireAdmin } from "../middlewares/auth";
+import {
+  requireSignIn,
+  requireAdmin,
+  requireSameUser
+} from "../middlewares/auth";
 
-import { updateUserInfo, deleteUser, getAllUsers } from "../controllers/user";
+import {
+  updateUserInfo,
+  deleteUser,
+  getAllUsers,
+  getUser
+} from "../controllers/user";
 
 const router = express.Router();
 
-// @route   DELETE /users
+// @route   GET /users
 // @desc    Retrieve all users
 // @access  Private
+// @admin_resource   True
 router.get("/", requireSignIn, requireAdmin, getAllUsers);
 
-// @route   DELETE /users
-// @desc    deletes specified user
+// @route   GET /users
+// @desc    Retrieve single user
 // @access  Private
-router.delete("/:userId", requireSignIn, deleteUser);
+router.get("/:userId", requireSignIn, requireSameUser, getUser);
+
+// @route   DELETE /users
+// @desc    Deletes specified user
+// @access  Private
+router.delete("/:userId", requireSignIn, requireSameUser, deleteUser);
 
 // @route   PUT /users
 // @desc    Updates specified user details
 // @access  Private
-router.put("/:userId", requireSignIn, updateUserSchema, updateUserInfo);
+router.put(
+  "/:userId",
+  requireSignIn,
+  requireSameUser,
+  updateUserSchema,
+  updateUserInfo
+);
 
 export default router;

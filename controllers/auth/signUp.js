@@ -23,13 +23,8 @@ const signUp = async (req, res) => {
       });
     } else {
       const user = await User.create(newUser);
-      const { id, userName } = user;
       return res.status(201).json({
-        success: "Account registered.",
-        data: {
-          id,
-          userName
-        }
+        success: "Account registered successfully."
       });
     }
   } catch (error) {

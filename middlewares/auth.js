@@ -61,3 +61,31 @@ export const requireAdmin = (req, res, next) => {
     handleError(res, error);
   }
 };
+
+/**
+ * Checks if the authenticated user's id and
+ * request param "userId" are equal
+ *
+ *
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ *
+ * @return {Function}
+ */
+
+export const requireSameUser = (req, res, next) => {
+  try {
+    const authenticatedUser = req.authUser;
+    const { id } = authenticatedUser;
+    const { userId } = req.params;
+    if (id !== userId) {
+      return res.status(403).json({
+        error: "Unauthorized. Cannot access another user's profile"
+      });
+    }
+    return next();
+  } catch (error) {
+    handleError(res, error);
+  }
+};

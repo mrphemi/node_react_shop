@@ -25,8 +25,7 @@ const updateUserInfo = async (req, res) => {
     // save updated doc
     const updatedUser = await updated.save();
     res.status(201).json({
-      success: "User successfully updated",
-      updatedUser
+      success: "User successfully updated"
     });
   } catch (error) {
     handleError(res, error);
