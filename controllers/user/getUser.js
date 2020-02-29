@@ -19,7 +19,7 @@ const getUser = async (req, res) => {
     }
 
     const user = await User.findById(userId).select(
-      "first_name last_name user_name email"
+      "first_name last_name email"
     );
 
     if (user) {

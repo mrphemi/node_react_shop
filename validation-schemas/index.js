@@ -14,10 +14,6 @@ export const LoginSchema = Yup.object().shape({
 });
 
 export const RegisterSchema = Yup.object().shape({
-  user_name: Yup.string()
-    .typeError("user_name must be a valid string")
-    .trim()
-    .required("user_name is required"),
   first_name: Yup.string()
     .typeError("first_name must be a valid string")
     .trim()
@@ -49,9 +45,6 @@ export const updateUserSchema = Yup.object().shape({
     .typeError("user_name must be a valid string")
     .trim(),
   last_name: Yup.string()
-    .typeError("user_name must be a valid string")
-    .trim(),
-  user_name: Yup.string()
     .typeError("user_name must be a valid string")
     .trim(),
   email: Yup.string()

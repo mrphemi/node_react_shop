@@ -4,7 +4,8 @@ import updateUserSchema from "../validators/updateUser";
 import {
   requireSignIn,
   requireAdmin,
-  requireSameUser
+  requireSameUser,
+  requireAdminOrSameUser
 } from "../middlewares/auth";
 
 import {
@@ -25,12 +26,12 @@ router.get("/", requireSignIn, requireAdmin, getAllUsers);
 // @route   GET /users
 // @desc    Retrieve single user
 // @access  Private
-router.get("/:userId", requireSignIn, requireSameUser, getUser);
+router.get("/:userId", requireSignIn, requireAdminOrSameUser, getUser);
 
 // @route   DELETE /users
 // @desc    Deletes specified user
 // @access  Private
-router.delete("/:userId", requireSignIn, requireSameUser, deleteUser);
+router.delete("/:userId", requireSignIn, requireAdminOrSameUser, deleteUser);
 
 // @route   PUT /users
 // @desc    Updates specified user details

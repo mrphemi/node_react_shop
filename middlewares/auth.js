@@ -89,3 +89,32 @@ export const requireSameUser = (req, res, next) => {
     handleError(res, error);
   }
 };
+
+/**
+ * Checks if the authenticated user's id and
+ * request param "userId" are equal or if user is admin
+ *
+ *
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ *
+ * @return {Function}
+ */
+export const requireAdminOrSameUser = (req, res, next) => {
+  try {
+    const authenticatedUser = req.authUser;
+    const { id, account_type } = authenticatedUser;
+    const { userId } = req.params;
+
+    if (id === userId || account_type === 1) {
+      return next();
+    } else {
+      return res.status(403).json({
+        error: "Unauthorized. Cannot access user's profile"
+      });
+    }
+  } catch (error) {
+    handleError(res, error);
+  }
+};
