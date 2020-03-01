@@ -11,8 +11,10 @@ import config from "./config";
 import productRoute from "./routes/products";
 import categoryRoute from "./routes/category";
 import orderRoute from "./routes/orders";
-import signupRoute from "./routes/auth/signUp";
-import loginRoute from "./routes/auth/login";
+import customerRegisterRoute from "./routes/auth/customer/register";
+import customerLoginRoute from "./routes/auth/customer/login";
+import adminRegisterRoute from "./routes/auth/admin/register";
+import adminLoginRoute from "./routes/auth/admin/login";
 import userRoute from "./routes/users";
 
 const port = config.port;
@@ -43,8 +45,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/products", productRoute);
 app.use("/categories", categoryRoute);
 app.use("/orders", orderRoute);
-app.use("/register", signupRoute);
-app.use("/login", loginRoute);
+app.use("/register", customerRegisterRoute);
+app.use("/login", customerLoginRoute);
+app.use("/admin/register", adminRegisterRoute);
+app.use("/admin/login", adminLoginRoute);
 app.use("/users", userRoute);
 
 app.get("/", function(req, res) {

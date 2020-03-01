@@ -1,4 +1,6 @@
-import signUp from "./signUp";
-import login from "./login";
+import customerRegister from "./customer/register";
+import customerLogin from "./customer/login";
+import adminRegister from "./admin/register";
+import adminLogin from "./admin/login";
 
-export { signUp, login };
+export { customerRegister, customerLogin, adminRegister, adminLogin };

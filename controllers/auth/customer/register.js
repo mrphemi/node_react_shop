@@ -1,8 +1,8 @@
-import User from "../../model/user";
-import { handleError } from "../../helpers";
+import User from "../../../model/user";
+import { handleError } from "../../../helpers";
 
 /**
- * Handle user registration endpoint
+ * Handle customer registration endpoint
  *
  * @param {Object} req
  * @param {Object} res
@@ -10,12 +10,12 @@ import { handleError } from "../../helpers";
  */
 
 const signUp = async (req, res) => {
-  // create new user
+  // create new customer account
   const newUser = new User(req.body);
 
   try {
     const { email } = req.body;
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email, account_type: 0 });
     if (existingUser) {
       // user already exists in db
       return res.status(403).json({
