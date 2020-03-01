@@ -47,7 +47,13 @@ UserSchema.methods.comparePasswords = function(password) {
  * @return {string}
  */
 UserSchema.methods.generateToken = function() {
-  return jwt.sign({ id: this._id }, config.jwtSecret, { expiresIn: "7d" });
+  const userInfo = {
+    id: this._id,
+    email: this.email,
+    first_name: this.first_name,
+    last_name: this.last_name
+  };
+  return jwt.sign(userInfo, config.jwtSecret, { expiresIn: "7d" });
 };
 
 const User = mongoose.model("User", UserSchema);

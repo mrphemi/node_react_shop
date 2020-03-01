@@ -15,7 +15,7 @@ const login = async (req, res) => {
     // Check if user exists and if password is valid
     const user = await User.findOne({ email });
 
-    // Return error if user dosen't exist or password is incorrect
+    // Return error if user doesn't exist or password is incorrect
     if (!user) {
       return res.status(401).json({
         error: "email or password incorrect"
@@ -31,15 +31,10 @@ const login = async (req, res) => {
     }
 
     const token = await user.generateToken();
-    const { id, userName } = user;
 
     return res.status(200).json({
       sucess: "Login successful",
-      data: {
-        id,
-        userName,
-        token
-      }
+      token
     });
   } catch (error) {
     handleError(res, error);
