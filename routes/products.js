@@ -64,7 +64,7 @@ router.delete("/:productId", requireSignIn, requireAdmin, deleteProduct);
 // @access  Private
 // @admin_resource   True
 router.put(
-  "/update_product/:productId",
+  "/:productId",
   upload,
   requireSignIn,
   requireAdmin,
