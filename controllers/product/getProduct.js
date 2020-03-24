@@ -1,5 +1,3 @@
-import Chalk from "chalk";
-
 import Product from "../../model/product";
 import { isValidMongoId, handleError } from "../../helpers";
 
@@ -15,7 +13,9 @@ const getProduct = async (req, res) => {
   try {
     // check if id is a valid mongo id
     if (!isValidMongoId(productId)) {
-      console.log(Chalk.red("Invalid product id"));
+      res.status(422).json({
+        error: "Invalid product id"
+      });
     }
 
     const product = await Product.findById(productId).select(
@@ -24,7 +24,7 @@ const getProduct = async (req, res) => {
 
     if (product) {
       res.status(200).json({
-        success: "Product retrieved sucessfully",
+        success: "Product retrieved successfully",
         product
       });
     } else {

@@ -53,13 +53,13 @@ router.post(
   createProduct
 );
 
-// @route   DELETE /products
+// @route   DELETE /products/{productId}
 // @desc    Deletes specified product
 // @access  Private
 // @admin_resource    True
 router.delete("/:productId", requireSignIn, requireAdmin, deleteProduct);
 
-// @route   PUT /products
+// @route   PUT /products/{productId}
 // @desc    Updates specified product details
 // @access  Private
 // @admin_resource   True
