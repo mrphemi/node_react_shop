@@ -1,5 +1,3 @@
-import Chalk from "chalk";
-
 import Category from "../../model/category";
 import { isValidMongoId, handleError } from "../../helpers";
 
@@ -14,15 +12,17 @@ const deleteCategory = async (req, res) => {
   const { categoryId } = req.params;
 
   // check if id is a valid mongo id
-  if (!isValidMongoId(productId)) {
-    console.log(Chalk.red("Invalid category id"));
+  if (!isValidMongoId(categoryId)) {
+    res.status(422).json({
+      error: "Invalid category id"
+    });
   }
 
   try {
     const category = await Category.findByIdAndDelete(categoryId);
     if (category) {
       res.status(200).json({
-        success: "Category deleted sucessfully"
+        success: "Category deleted successfully"
       });
     } else {
       // Product not found
