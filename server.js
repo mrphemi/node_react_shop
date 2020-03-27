@@ -15,6 +15,7 @@ import customerRegisterRoute from "./routes/auth/customer/register";
 import customerLoginRoute from "./routes/auth/customer/login";
 import adminRegisterRoute from "./routes/auth/admin/register";
 import adminLoginRoute from "./routes/auth/admin/login";
+import customerRoute from "./routes/customers";
 import userRoute from "./routes/users";
 
 const port = config.port;
@@ -50,6 +51,7 @@ app.use("/login", customerLoginRoute);
 app.use("/admin/register", adminRegisterRoute);
 app.use("/admin/login", adminLoginRoute);
 app.use("/users", userRoute);
+app.use("/customers", customerRoute);
 
 app.get("/", function(req, res) {
   res.send("Welcome to reactshop api");

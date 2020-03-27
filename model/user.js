@@ -6,7 +6,7 @@ import config from "../config";
 
 const Schema = mongoose.Schema;
 
-// Account type : 0 for regular user, 1 for admin
+// Account type : 0 for customer, 1 for admin
 
 const UserSchema = new Schema(
   {
