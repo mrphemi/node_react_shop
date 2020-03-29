@@ -6,17 +6,17 @@ import config from "../config";
 
 const Schema = mongoose.Schema;
 
-// Account type : 0 for customer, 1 for admin
-
-const UserSchema = new Schema(
+const CustomerSchema = new Schema(
   {
     first_name: String,
     last_name: String,
     email: String,
     password: String,
-    account_type: {
-      type: Number,
-      default: 0
+    phone: Number,
+    role: {
+      type: String,
+      default: "customer",
+      immutable: true
     }
   },
   { timestamps: true }
@@ -28,7 +28,7 @@ const UserSchema = new Schema(
  *
  * @return {null}
  */
-UserSchema.pre("save", function() {
+CustomerSchema.pre("save", function() {
   this.password = bcrypt.hashSync(this.password);
 });
 
@@ -37,7 +37,7 @@ UserSchema.pre("save", function() {
  *
  * @return {boolean}
  */
-UserSchema.methods.comparePasswords = function(password) {
+CustomerSchema.methods.comparePasswords = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
 
@@ -46,7 +46,7 @@ UserSchema.methods.comparePasswords = function(password) {
  *
  * @return {string}
  */
-UserSchema.methods.generateToken = function() {
+CustomerSchema.methods.generateToken = function() {
   const userInfo = {
     id: this._id,
     email: this.email,
@@ -56,6 +56,6 @@ UserSchema.methods.generateToken = function() {
   return jwt.sign(userInfo, config.jwtSecret, { expiresIn: "7d" });
 };
 
-const User = mongoose.model("User", UserSchema);
+const Customer = mongoose.model("User", CustomerSchema);
 
-export default User;
+export default Customer;
