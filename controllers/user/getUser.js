@@ -1,6 +1,4 @@
-import Chalk from "chalk";
-
-import User from "../../model/user";
+import Customer from "../../model/customer";
 import { isValidMongoId, handleError } from "../../helpers";
 
 /**
@@ -15,12 +13,14 @@ const getUser = async (req, res) => {
   try {
     // check if id is a valid mongo id
     if (!isValidMongoId(userId)) {
-      console.log(Chalk.red("Invalid user id"));
+      res.status(422).json({
+        error: "Invalid user id"
+      });
     }
 
-    const user = await User.findById(userId).select(
-      "first_name last_name email"
-    );
+    const exclude = "-password -__v -account_type -createdAt -updatedAt -role";
+
+    const user = await Customer.findById(userId).select(exclude);
 
     if (user) {
       res.status(200).json({

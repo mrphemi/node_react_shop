@@ -1,4 +1,4 @@
-import User from "../../model/user";
+import Customer from "../../model/customer";
 import { handleError } from "../../helpers";
 
 /**
@@ -11,7 +11,7 @@ import { handleError } from "../../helpers";
 const deleteUser = async (req, res) => {
   const { userId } = req.params;
   try {
-    const user = await User.findByIdAndDelete(userId);
+    const user = await Customer.findByIdAndDelete(userId);
     if (user) {
       res.status(200).json({
         success: "User deleted successfully"

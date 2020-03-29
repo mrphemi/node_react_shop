@@ -1,4 +1,4 @@
-import User from "../../model/user";
+import Customer from "../../model/customer";
 
 import { isValidMongoId, handleError } from "../../helpers";
 
@@ -20,10 +20,9 @@ const getCustomer = async (req, res) => {
       });
     }
 
-    const customer = await User.findOne({
-      _id: customerId,
-      account_type: 0
-    }).select("first_name last_name email");
+    const customer = await Customer.findById(customerId).select(
+      "first_name last_name email"
+    );
 
     if (customer) {
       res.status(200).json({

@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import User from "../../model/user";
+import Customer from "../../model/customer";
 import { handleError } from "../../helpers";
 
 /**
@@ -13,7 +13,7 @@ import { handleError } from "../../helpers";
 const updateUserInfo = async (req, res) => {
   const { userId } = req.params;
   try {
-    const user = await User.findById(userId);
+    const user = await Customer.findById(userId);
 
     if (!user) {
       return res.status(404).json({
@@ -21,9 +21,10 @@ const updateUserInfo = async (req, res) => {
       });
     }
     // update doc
-    const updated = _.extend(user, req.body);
+    const updated = _.merge(user, req.body);
+
     // save updated doc
-    const updatedUser = await updated.save();
+    await updated.save();
     res.status(201).json({
       success: "User successfully updated"
     });

@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 
 import config from "../config";
-import User from "../model/user";
+import Customer from "../model/customer";
+import Admin from "../model/admin";
+
 import { handleError } from "../helpers";
 
 /**
@@ -22,11 +24,17 @@ export const requireSignIn = async (req, res, next) => {
       req.body.access_token ||
       req.headers["access_token"] ||
       req.query.access_token;
-    const payload = jwt.verify(token, config.jwtSecret);
-    const authUser = await User.findById(payload.id);
+    const { id, role } = jwt.verify(token, config.jwtSecret);
 
-    req.authUser = authUser;
-    return next();
+    if (role === "Admin") {
+      const authUser = await Admin.findById(id);
+      req.authUser = authUser;
+      return next();
+    } else {
+      const authUser = await Customer.findById(id);
+      req.authUser = authUser;
+      return next();
+    }
   } catch (error) {
     res.status(401).json({
       error: "Unauthenticated. Please Login"
@@ -36,7 +44,6 @@ export const requireSignIn = async (req, res, next) => {
 
 /**
  * Checks if the authenticated user has an admin account_type
- * (admin accounts has an account_type of 1)
  *
  *
  * @param {Object} req
@@ -49,9 +56,8 @@ export const requireSignIn = async (req, res, next) => {
 export const requireAdmin = (req, res, next) => {
   try {
     const authenticatedUser = req.authUser;
-    const { account_type } = authenticatedUser;
-    // Check if user is admin
-    if (account_type !== 1) {
+    const { role } = authenticatedUser;
+    if (role !== "Admin") {
       return res.status(403).json({
         error: "Unauthorized. Admin Resource"
       });
@@ -81,7 +87,7 @@ export const requireSameUser = (req, res, next) => {
     const { userId } = req.params;
     if (id !== userId) {
       return res.status(403).json({
-        error: "Unauthorized. Cannot access another user's profile"
+        error: "Unauthorized. Access denied"
       });
     }
     return next();
@@ -104,14 +110,14 @@ export const requireSameUser = (req, res, next) => {
 export const requireAdminOrSameUser = (req, res, next) => {
   try {
     const authenticatedUser = req.authUser;
-    const { id, account_type } = authenticatedUser;
+    const { id, role } = authenticatedUser;
     const { userId } = req.params;
 
-    if (id === userId || account_type === 1) {
+    if (id === userId || role === "Admin") {
       return next();
     } else {
       return res.status(403).json({
-        error: "Unauthorized. Cannot access user's profile"
+        error: "Unauthorized. Access denied"
       });
     }
   } catch (error) {

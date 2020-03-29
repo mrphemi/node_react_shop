@@ -1,4 +1,4 @@
-import User from "../../model/user";
+import Customer from "../../model/customer";
 
 import { handleError } from "../../helpers";
 
@@ -11,7 +11,7 @@ import { handleError } from "../../helpers";
 
 const getAll = async (req, res) => {
   try {
-    const customers = await User.find({ account_type: 0 }).select(
+    const customers = await Customer.find({}).select(
       "first_name last_name email"
     );
 

@@ -31,12 +31,7 @@ export const RegisterSchema = Yup.object().shape({
     .typeError("password must be a valid string")
     .min(6, "password must be minimum of 6 xters")
     .max(10, "password must not be more than 10 xters")
-    .required("password is required"),
-  account_type: Yup.number()
-    .typeError("account_type must be a number")
-    .positive("account_type must be greater than zero")
-    .lessThan(2, "account_type must be less than 2")
-    .integer()
+    .required("password is required")
 });
 
 // User

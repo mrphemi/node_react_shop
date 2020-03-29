@@ -22,10 +22,9 @@ const updateCategory = async (req, res) => {
     // update doc
     const updated = _.extend(category, req.body);
     // save updated doc
-    const updatedCategory = await updated.save();
+    await updated.save();
     res.status(201).json({
-      success: "Category successfully updated",
-      updatedCategory
+      success: "Category successfully updated"
     });
   } catch (error) {
     handleError(res, error);
