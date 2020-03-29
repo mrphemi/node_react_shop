@@ -1,8 +1,8 @@
-import User from "../../../model/user";
+import Customer from "../../../model/customer";
 import { handleError } from "../../../helpers";
 
 /**
- * Handle user login endpoint
+ * Handle customer login endpoint
  *
  * @param {Object} req
  * @param {Object} res
@@ -13,7 +13,7 @@ const login = async (req, res) => {
 
   try {
     // Check if user exists
-    const user = await User.findOne({ email, account_type: 0 });
+    const user = await Customer.findOne({ email });
 
     // Return error if user doesn't exist
     if (!user) {

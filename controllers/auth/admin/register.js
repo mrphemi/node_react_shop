@@ -1,4 +1,4 @@
-import User from "../../../model/user";
+import Admin from "../../../model/admin";
 import { handleError } from "../../../helpers";
 
 /**
@@ -9,20 +9,19 @@ import { handleError } from "../../../helpers";
  *
  */
 
-const signUp = async (req, res) => {
+const register = async (req, res) => {
   // create new admin account
-  const newUser = new User({ ...req.body, account_type: 1 });
+  const newUser = new Admin({ ...req.body });
 
   try {
     const { email } = req.body;
-    const existingUser = await User.findOne({ email, account_type: 1 });
+    const existingUser = await Admin.findOne({ email });
     if (existingUser) {
-      // user already exists in db
       return res.status(403).json({
-        error: "User already exists"
+        error: "Sorry, user with email already exists"
       });
     } else {
-      const user = await User.create(newUser);
+      await Admin.create(newUser);
       return res.status(201).json({
         success: "Account registered successfully."
       });
@@ -32,4 +31,4 @@ const signUp = async (req, res) => {
   }
 };
 
-export default signUp;
+export default register;

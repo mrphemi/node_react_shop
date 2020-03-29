@@ -1,8 +1,8 @@
-import User from "../../../model/user";
+import Admin from "../../../model/admin";
 import { handleError } from "../../../helpers";
 
 /**
- * Handle customer login endpoint
+ * Handle admin login endpoint
  *
  * @param {Object} req
  * @param {Object} res
@@ -12,10 +12,8 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if user exists
-    const user = await User.findOne({ email, account_type: 1 });
+    const user = await Admin.findOne({ email });
 
-    // Return error if user doesn't exist
     if (!user) {
       return res.status(401).json({
         error: "email or password incorrect"
