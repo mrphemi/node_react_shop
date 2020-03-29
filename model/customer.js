@@ -15,7 +15,7 @@ const CustomerSchema = new Schema(
     phone: Number,
     role: {
       type: String,
-      default: "customer",
+      default: "Customer",
       immutable: true
     }
   },
@@ -51,11 +51,12 @@ CustomerSchema.methods.generateToken = function() {
     id: this._id,
     email: this.email,
     first_name: this.first_name,
-    last_name: this.last_name
+    last_name: this.last_name,
+    role: this.role
   };
   return jwt.sign(userInfo, config.jwtSecret, { expiresIn: "7d" });
 };
 
-const Customer = mongoose.model("User", CustomerSchema);
+const Customer = mongoose.model("Customer", CustomerSchema);
 
 export default Customer;

@@ -15,7 +15,7 @@ const AdminSchema = new Schema(
     password: String,
     role: {
       type: String,
-      default: "admin",
+      default: "Admin",
       immutable: true
     }
   },
@@ -51,11 +51,12 @@ AdminSchema.methods.generateToken = function() {
     id: this._id,
     email: this.email,
     first_name: this.first_name,
-    last_name: this.last_name
+    last_name: this.last_name,
+    role: this.role
   };
   return jwt.sign(userInfo, config.jwtSecret, { expiresIn: "7d" });
 };
 
-const Admin = mongoose.model("User", AdminSchema);
+const Admin = mongoose.model("Admin", AdminSchema);
 
 export default Admin;
