@@ -25,7 +25,7 @@ const getUser = async (req, res) => {
     if (user) {
       res.status(200).json({
         success: "User retrieved successfully",
-        user
+        result: user
       });
     } else {
       res.status(404).json({

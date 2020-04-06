@@ -24,7 +24,7 @@ const getCategory = async (req, res) => {
     if (category) {
       res.status(200).json({
         success: "Category retrieved successfully",
-        category
+        result: category
       });
     } else {
       res.status(404).json({

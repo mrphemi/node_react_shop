@@ -1,6 +1,15 @@
 import path from "path";
 
-// Check file type
+/**
+ * Check file type
+ *
+ * @param {Object} file
+ * @param {Function} cb
+ *
+ *
+ * @return {Function}
+ */
+
 const checkFileType = (file, cb) => {
   // Allowed extensions
   const fileTypes = /jpeg|jpg|png/;

@@ -27,7 +27,7 @@ const getCustomer = async (req, res) => {
     if (customer) {
       res.status(200).json({
         success: "Customer retrieved successfully",
-        customer
+        result: customer
       });
     } else {
       res.status(404).json({

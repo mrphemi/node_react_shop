@@ -1,5 +1,5 @@
 import Customer from "../../model/customer";
-
+import { getOffsetAndLimit, paginatedResults } from "../../helpers/paginate";
 import { handleError } from "../../helpers";
 
 /**
@@ -9,21 +9,26 @@ import { handleError } from "../../helpers";
  * @param {Object} res
  */
 
-const getAll = async (req, res) => {
+const getAllCustomers = async (req, res) => {
+  const { page } = req.query;
   try {
-    const customers = await Customer.find({}).select(
-      "first_name last_name email"
-    );
-
+    const docCount = await Customer.estimatedDocumentCount();
+    const { limit, offset } = getOffsetAndLimit(page);
+    const customers = await Customer.find({})
+      .select("first_name last_name email")
+      .limit(limit)
+      .skip(offset);
+    const meta = paginatedResults(page, docCount, customers);
     if (customers.length > 0) {
       res.status(200).json({
         success: "Customers retrieved successfully",
-        customers
+        meta,
+        results: customers
       });
     } else {
       res.json({
         success: "No customers found",
-        customers
+        results: customers
       });
     }
   } catch (error) {
@@ -31,4 +36,4 @@ const getAll = async (req, res) => {
   }
 };
 
-export default getAll;
+export default getAllCustomers;

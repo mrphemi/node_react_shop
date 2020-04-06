@@ -8,7 +8,7 @@ const cloudinaryFolder =
     ? "ecommerce_prod/products"
     : "ecommerce/products";
 
-// datauri instance
+// data uri instance
 const dUri = new Datauri();
 
 // cloudinary uploader

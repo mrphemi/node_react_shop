@@ -25,7 +25,7 @@ const getProduct = async (req, res) => {
     if (product) {
       res.status(200).json({
         success: "Product retrieved successfully",
-        product
+        result: product
       });
     } else {
       res.status(404).json({

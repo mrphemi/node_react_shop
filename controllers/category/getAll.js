@@ -1,4 +1,5 @@
 import Category from "../../model/category";
+import { paginatedResults, getOffsetAndLimit } from "../../helpers/paginate";
 import { handleError } from "../../helpers";
 
 /**
@@ -8,18 +9,26 @@ import { handleError } from "../../helpers";
  * @param {Object} res
  */
 
-const getAllProducts = async (req, res) => {
+const getAllCategories = async (req, res) => {
+  const { page } = req.query;
   try {
-    const categories = await Category.find({}).select("name id");
+    const docCount = await Category.estimatedDocumentCount();
+    const { limit, offset } = getOffsetAndLimit(page);
+    const categories = await Category.find({})
+      .select("name id")
+      .limit(limit)
+      .skip(offset);
+    const meta = paginatedResults(page, docCount, categories);
     if (categories.length > 0) {
       res.status(200).json({
-        success: "Categories retrieved",
-        categories
+        success: "Categories retrieved successfully",
+        meta,
+        results: categories
       });
     } else {
       res.json({
         success: "No Category found",
-        categories
+        results: categories
       });
     }
   } catch (error) {
@@ -27,4 +36,4 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-export default getAllProducts;
+export default getAllCategories;
