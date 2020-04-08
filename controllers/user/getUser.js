@@ -1,4 +1,5 @@
 import Customer from "../../model/customer";
+import Admin from "../../model/admin";
 import { isValidMongoId, handleError } from "../../helpers";
 
 /**
@@ -14,22 +15,27 @@ const getUser = async (req, res) => {
     // check if id is a valid mongo id
     if (!isValidMongoId(userId)) {
       res.status(422).json({
-        error: "Invalid user id"
+        error: "Invalid user id",
       });
     }
 
-    const exclude = "-password -__v -account_type -createdAt -updatedAt -role";
+    const exclude = "-password -__v -createdAt -updatedAt -role";
+    let user;
 
-    const user = await Customer.findById(userId).select(exclude);
+    if (req.authUser.role === "Customer") {
+      user = await Customer.findById(userId).select(exclude);
+    } else {
+      user = await Admin.findById(userId).select(exclude);
+    }
 
     if (user) {
       res.status(200).json({
         success: "User retrieved successfully",
-        result: user
+        result: user,
       });
     } else {
       res.status(404).json({
-        error: "No matches for user"
+        error: "No matches for user",
       });
     }
   } catch (error) {

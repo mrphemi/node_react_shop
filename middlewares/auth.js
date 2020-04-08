@@ -26,18 +26,18 @@ export const requireSignIn = async (req, res, next) => {
       req.query.access_token;
     const { id, role } = jwt.verify(token, config.jwtSecret);
 
+    let authUser;
+
     if (role === "Admin") {
-      const authUser = await Admin.findById(id);
-      req.authUser = authUser;
-      return next();
+      authUser = await Admin.findById(id);
     } else {
-      const authUser = await Customer.findById(id);
-      req.authUser = authUser;
-      return next();
+      authUser = await Customer.findById(id);
     }
+    req.authUser = authUser;
+    return next();
   } catch (error) {
     res.status(401).json({
-      error: "Unauthenticated. Please Login"
+      error: "Unauthenticated. Please Login",
     });
   }
 };
@@ -59,7 +59,7 @@ export const requireAdmin = (req, res, next) => {
     const { role } = authenticatedUser;
     if (role !== "Admin") {
       return res.status(403).json({
-        error: "Unauthorized. Admin Resource"
+        error: "Unauthorized. Admin Resource",
       });
     }
     return next();
@@ -87,7 +87,7 @@ export const requireSameUser = (req, res, next) => {
     const { userId } = req.params;
     if (id !== userId) {
       return res.status(403).json({
-        error: "Unauthorized. Access denied"
+        error: "Unauthorized. Access denied",
       });
     }
     return next();
@@ -117,7 +117,7 @@ export const requireAdminOrSameUser = (req, res, next) => {
       return next();
     } else {
       return res.status(403).json({
-        error: "Unauthorized. Access denied"
+        error: "Unauthorized. Access denied",
       });
     }
   } catch (error) {
