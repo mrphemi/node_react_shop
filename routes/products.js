@@ -9,10 +9,11 @@ import {
   getProduct,
   createProduct,
   deleteProduct,
-  updateProductDetails
+  updateProductDetails,
 } from "../controllers/product";
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
 import uploadImage from "../middlewares/uploadImage";
+import getProductById from "../middlewares/getProductById";
 import checkFileType from "../helpers/fileFilter";
 import { createProductValidator, updateProductValidator } from "../validators";
 
@@ -24,7 +25,7 @@ const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
-  }
+  },
 }).single("product_img");
 
 router.use("/", cloudinaryConfig);
@@ -50,7 +51,7 @@ router.post(
   requireAdmin,
   createProductValidator,
   uploadImage,
-  createProduct
+  createProduct,
 );
 
 // @route   DELETE /products/{productId}
@@ -70,7 +71,9 @@ router.put(
   requireAdmin,
   updateProductValidator,
   uploadImage,
-  updateProductDetails
+  updateProductDetails,
 );
+
+router.param("productId", getProductById);
 
 export default router;
