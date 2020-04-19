@@ -10,6 +10,7 @@ import {
   createProduct,
   deleteProduct,
   updateProductDetails,
+  getRelatedProducts,
 } from "../controllers/product";
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
 import uploadImage from "../middlewares/uploadImage";
@@ -39,6 +40,11 @@ router.get("/", getAllProducts);
 // @desc    Retrieve's single product
 // @access  Public
 router.get("/:productId", getProduct);
+
+// @route   GET /products/{productId}
+// @desc    Retrieve's single product
+// @access  Public
+router.get("/:productId/related", getRelatedProducts);
 
 // @route   POST /products
 // @desc    Creates new product
