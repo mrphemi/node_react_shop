@@ -23,12 +23,12 @@ const getAllProducts = async (req, res) => {
       res.status(200).json({
         success: "Products retrieved",
         meta,
-        results: products
+        results: products,
       });
     } else {
       res.json({
         success: "No products found",
-        results: products
+        results: products,
       });
     }
   } catch (error) {

@@ -6,7 +6,8 @@ import {
   deleteCategory,
   updateCategory,
   getAll,
-  getCategory
+  getProductsByCategory,
+  getCategory,
 } from "../controllers/category";
 
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
@@ -23,6 +24,11 @@ router.get("/", getAll);
 // @access  Public
 router.get("/:categoryId", getCategory);
 
+// @route   GET /category/{categoryId}/products
+// @desc    Retrieve products by category
+// @access  Public
+router.get("/:categoryId/products", getProductsByCategory);
+
 // @route   POST /category
 // @desc    Creates new category
 // @access  Private
@@ -32,7 +38,7 @@ router.post(
   requireSignIn,
   requireAdmin,
   createCategoryValidator,
-  createCategory
+  createCategory,
 );
 
 // @route   DELETE /category/{categoryId}
@@ -50,7 +56,7 @@ router.put(
   requireSignIn,
   requireAdmin,
   createCategoryValidator,
-  updateCategory
+  updateCategory,
 );
 
 export default router;
