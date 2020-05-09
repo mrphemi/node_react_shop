@@ -4,6 +4,7 @@ import createProduct from "./createProduct";
 import deleteProduct from "./deleteProduct";
 import updateProductDetails from "./updateProductDetails";
 import getRelatedProducts from "./getRelatedProducts";
+import getProductsBySearch from "./getProductsBySearch";
 
 export {
   getAllProducts,
@@ -12,4 +13,5 @@ export {
   deleteProduct,
   updateProductDetails,
   getRelatedProducts,
+  getProductsBySearch,
 };

@@ -11,6 +11,7 @@ import {
   deleteProduct,
   updateProductDetails,
   getRelatedProducts,
+  getProductsBySearch,
 } from "../controllers/product";
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
 import uploadImage from "../middlewares/uploadImage";
@@ -35,6 +36,11 @@ router.use("/", cloudinaryConfig);
 // @desc    Retrieve all products
 // @access  Public
 router.get("/", getAllProducts);
+
+// @route   GET /products/search
+// @desc    Retrieve all products based on search string
+// @access  Public
+router.get("/search", getProductsBySearch);
 
 // @route   GET /products/{productId}
 // @desc    Retrieve's single product
