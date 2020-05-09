@@ -4,6 +4,7 @@ import createProductValidator from "./createProduct";
 import updateProductValidator from "./updateProduct";
 import createCategoryValidator from "./createCategory";
 import createAndUpdateBrandValidator from "./createAndUpdateBrand";
+import createAndUpdateSizeValidator from "./createAndUpdateSize";
 
 export {
   loginValidator,
@@ -12,4 +13,5 @@ export {
   updateProductValidator,
   createCategoryValidator,
   createAndUpdateBrandValidator,
+  createAndUpdateSizeValidator,
 };

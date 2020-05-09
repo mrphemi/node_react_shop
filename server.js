@@ -11,6 +11,7 @@ import config from "./config";
 import productRoute from "./routes/products";
 import categoryRoute from "./routes/category";
 import brandRoute from "./routes/brands";
+import sizeRoute from "./routes/size";
 import orderRoute from "./routes/orders";
 import customerRegisterRoute from "./routes/auth/customer/register";
 import customerLoginRoute from "./routes/auth/customer/login";
@@ -54,6 +55,7 @@ app.use("/admin/login", adminLoginRoute);
 app.use("/users", userRoute);
 app.use("/customers", customerRoute);
 app.use("/brands", brandRoute);
+app.use("/sizes", sizeRoute);
 
 app.get("/", function (req, res) {
   res.send("Welcome to reactshop api");
