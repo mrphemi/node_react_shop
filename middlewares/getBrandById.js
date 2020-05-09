@@ -1,7 +1,7 @@
 import Brand from "../model/brand";
 import { isValidMongoId, handleError } from "../helpers";
 
-const getProductById = async (req, res, next, id) => {
+const getBrandById = async (req, res, next, id) => {
   try {
     // check if id is a valid mongo id
     if (!isValidMongoId(id)) {
@@ -23,4 +23,4 @@ const getProductById = async (req, res, next, id) => {
   }
 };
 
-export default getProductById;
+export default getBrandById;

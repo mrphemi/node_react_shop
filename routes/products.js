@@ -14,7 +14,7 @@ import {
   getProductsBySearch,
 } from "../controllers/product";
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
-import uploadImage from "../middlewares/uploadImage";
+import uploadProductImage from "../middlewares/uploadProductImage";
 import getProductById from "../middlewares/getProductById";
 import checkFileType from "../helpers/fileFilter";
 import { createProductValidator, updateProductValidator } from "../validators";
@@ -62,7 +62,7 @@ router.post(
   requireSignIn,
   requireAdmin,
   createProductValidator,
-  uploadImage,
+  uploadProductImage,
   createProduct,
 );
 
@@ -82,7 +82,7 @@ router.put(
   requireSignIn,
   requireAdmin,
   updateProductValidator,
-  uploadImage,
+  uploadProductImage,
   updateProductDetails,
 );
 
