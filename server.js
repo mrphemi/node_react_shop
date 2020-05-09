@@ -10,6 +10,7 @@ import config from "./config";
 
 import productRoute from "./routes/products";
 import categoryRoute from "./routes/category";
+import brandRoute from "./routes/brands";
 import orderRoute from "./routes/orders";
 import customerRegisterRoute from "./routes/auth/customer/register";
 import customerLoginRoute from "./routes/auth/customer/login";
@@ -23,7 +24,7 @@ const app = express();
 
 mongoose.Promise = global.Promise;
 //connect to database
-mongoose.connect(config.databaseUrl, { useNewUrlParser: true }).catch(err => {
+mongoose.connect(config.databaseUrl, { useNewUrlParser: true }).catch((err) => {
   console.log(err);
 });
 
@@ -52,8 +53,9 @@ app.use("/admin/register", adminRegisterRoute);
 app.use("/admin/login", adminLoginRoute);
 app.use("/users", userRoute);
 app.use("/customers", customerRoute);
+app.use("/brands", brandRoute);
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.send("Welcome to reactshop api");
 });
 
