@@ -2,7 +2,6 @@ import express from "express";
 
 const router = express.Router();
 
-import getSizeById from "../middlewares/getSizeById";
 import { requireAdmin, requireSignIn } from "../middlewares/auth";
 import { createAndUpdateSizeValidator } from "../validators";
 import {
@@ -11,6 +10,7 @@ import {
   createSize,
   deleteSize,
   updateSize,
+  loadSize,
 } from "../controllers/sizes";
 
 // @route   GET /sizes
@@ -53,6 +53,6 @@ router.put(
   updateSize,
 );
 
-router.param("sizeId", getSizeById);
+router.param("sizeId", loadSize);
 
 export default router;

@@ -2,7 +2,6 @@ import express from "express";
 
 const router = express.Router();
 
-import getBrandById from "../middlewares/getBrandById";
 import { requireAdmin, requireSignIn } from "../middlewares/auth";
 import { createAndUpdateBrandValidator } from "../validators";
 import {
@@ -11,6 +10,7 @@ import {
   createBrand,
   deleteBrand,
   updateBrand,
+  loadBrand,
 } from "../controllers/brands";
 
 // @route   GET /brands
@@ -53,6 +53,6 @@ router.put(
   updateBrand,
 );
 
-router.param("brandId", getBrandById);
+router.param("brandId", loadBrand);
 
 export default router;

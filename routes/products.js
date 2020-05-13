@@ -5,17 +5,17 @@ const router = express.Router();
 
 import cloudinaryConfig from "../config/cloudinary";
 import {
-  getAllProducts,
+  getAll,
   getProduct,
   createProduct,
   deleteProduct,
-  updateProductDetails,
+  updateProduct,
   getRelatedProducts,
   getProductsBySearch,
+  loadProduct,
+  uploadProductImage,
 } from "../controllers/product";
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
-import uploadProductImage from "../middlewares/uploadProductImage";
-import getProductById from "../middlewares/getProductById";
 import checkFileType from "../helpers/fileFilter";
 import { createProductValidator, updateProductValidator } from "../validators";
 
@@ -35,7 +35,7 @@ router.use("/", cloudinaryConfig);
 // @route   GET /products
 // @desc    Retrieve all products
 // @access  Public
-router.get("/", getAllProducts);
+router.get("/", getAll);
 
 // @route   GET /products/search
 // @desc    Retrieve all products based on search string
@@ -83,9 +83,9 @@ router.put(
   requireAdmin,
   updateProductValidator,
   uploadProductImage,
-  updateProductDetails,
+  updateProduct,
 );
 
-router.param("productId", getProductById);
+router.param("productId", loadProduct);
 
 export default router;

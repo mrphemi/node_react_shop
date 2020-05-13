@@ -8,6 +8,7 @@ import {
   getAll,
   getProductsByCategory,
   getCategory,
+  loadCategory,
 } from "../controllers/category";
 
 import { requireSignIn, requireAdmin } from "../middlewares/auth";
@@ -58,5 +59,7 @@ router.put(
   createCategoryValidator,
   updateCategory,
 );
+
+router.param("categoryId", loadCategory);
 
 export default router;

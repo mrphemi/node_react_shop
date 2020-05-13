@@ -4,7 +4,7 @@ import updateUserSchema from "../validators/updateUser";
 import {
   requireSignIn,
   requireSameUser,
-  requireAdminOrSameUser
+  requireAdminOrSameUser,
 } from "../middlewares/auth";
 
 import { updateUserInfo, deleteUser, getUser } from "../controllers/user";
@@ -29,7 +29,7 @@ router.put(
   requireSignIn,
   requireSameUser,
   updateUserSchema,
-  updateUserInfo
+  updateUserInfo,
 );
 
 export default router;

@@ -5,8 +5,9 @@ import mongoose from "mongoose";
  *
  * @param {String} id
  *
+ * @return {Boolean}
  */
-export const isValidMongoId = id => mongoose.Types.ObjectId.isValid(id);
+export const isValidMongoId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 /**
  * Check file type
@@ -19,6 +20,6 @@ export const isValidMongoId = id => mongoose.Types.ObjectId.isValid(id);
 export const handleError = (res, error) => {
   res.status(500).json({
     error: "Something went wrong",
-    message: `${error.name}: ${error.message}`
+    message: `${error.name}: ${error.message}`,
   });
 };
