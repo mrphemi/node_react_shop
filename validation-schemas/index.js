@@ -57,8 +57,8 @@ export const BrandSchema = Yup.object().shape({
 // Size
 export const SizeSchema = Yup.object().shape({
   size: Yup.number()
-    .typeError("name must be a number")
-    .positive("price must be greater than zero")
+    .typeError("size must be a number")
+    .positive("size must be greater than zero")
     .required(),
 });
 
