@@ -81,6 +81,8 @@ export const createProductSchema = Yup.object().shape({
     .positive("quantity must be greater than zero")
     .integer(),
   availableSizes: Yup.array()
+    .typeError("please select at least on size")
+    .of(Yup.string().required())
     .min(1, "At least one size must be selected")
     .required(),
   brand: Yup.string().typeError("A brand must be specified").trim().required(),
@@ -104,7 +106,9 @@ export const updateProductSchema = Yup.object().shape({
     .typeError("quantity must be a number")
     .positive("quantity must be greater than zero")
     .integer(),
-  availableSizes: Yup.array().min(1, "At least one size must be selected"),
+  availableSizes: Yup.array()
+    .typeError("please select at least on size")
+    .min(1, "At least one size must be selected"),
   brand: Yup.string().typeError("A brand must be specified").trim(),
   image: Yup.string()
     .typeError("image must be a valid string")

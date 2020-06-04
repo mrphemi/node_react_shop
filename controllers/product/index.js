@@ -157,7 +157,10 @@ export const getProduct = async (req, res) => {
 export const createProduct = async (req, res) => {
   console.log(req.body);
   // Create new product
-  const newProduct = new Product(req.body);
+  const newProduct = new Product({
+    ...req.body,
+    availableSizes: JSON.parse(req.body.availableSizes),
+  });
   try {
     // Save new product to db
     const product = await Product.create(newProduct);
