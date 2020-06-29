@@ -16,14 +16,15 @@ export default async (req, res, next) => {
     await LoginSchema.validate(
       {
         email,
-        password
+        password,
       },
-      { strict: true }
+      { strict: true },
     );
     return next();
   } catch (error) {
     return res.status(422).json({
-      error: error.message
+      success: false,
+      message: error.message,
     });
   }
 };

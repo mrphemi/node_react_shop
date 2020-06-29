@@ -23,13 +23,15 @@ export const getAll = async (req, res) => {
     const meta = paginatedResults(page, docCount, categories);
     if (categories.length > 0) {
       res.status(200).json({
-        success: "Categories retrieved successfully",
+        success: true,
+        message: "Categories retrieved successfully",
         meta,
         results: categories,
       });
     } else {
-      res.json({
-        success: "No Category found",
+      res.status(200).json({
+        success: true,
+        message: "No Category found",
         results: categories,
       });
     }
@@ -42,15 +44,17 @@ export const loadCategory = async (req, res, next, id) => {
   try {
     // check if id is a valid mongo id
     if (!isValidMongoId(id)) {
-      res.status(422).json({
-        error: "Invalid category id",
+      return res.status(422).json({
+        success: false,
+        message: "Invalid category id",
       });
     }
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt";
     const category = await Category.findById(id).select(EXCLUDE_OPTIONS);
     if (!category) {
       return res.status(404).json({
-        error: "No matches for category",
+        success: false,
+        message: "No matches for category",
       });
     }
     req.category = category;
@@ -69,7 +73,8 @@ export const loadCategory = async (req, res, next, id) => {
 
 export const getCategory = async (req, res) => {
   res.status(200).json({
-    success: "Category retrieved successfully",
+    success: true,
+    message: "Category retrieved successfully",
     result: req.category,
   });
 };
@@ -84,20 +89,20 @@ export const getCategory = async (req, res) => {
 export const createCategory = async (req, res) => {
   const { name } = req.body;
   const newCategory = new Category({ name });
-
   try {
     const existingCategory = await Category.findOne({ name });
     if (existingCategory) {
       // category already exists in db
       return res.status(403).json({
-        error: "Category already exists",
-      });
-    } else {
-      const category = await Category.create(newCategory);
-      return res.status(201).json({
-        success: "Category Created Successfully",
+        success: false,
+        message: "Category already exists",
       });
     }
+    await Category.create(newCategory);
+    return res.status(201).json({
+      success: true,
+      message: "Category Created Successfully",
+    });
   } catch (error) {
     handleError(res, error);
   }
@@ -115,7 +120,8 @@ export const deleteCategory = async (req, res) => {
     const category = req.category;
     await Category.deleteOne({ _id: category._id });
     return res.status(200).json({
-      success: "Category deleted successfully",
+      success: true,
+      message: "Category deleted successfully",
     });
   } catch (error) {
     handleError(res, error);
@@ -136,8 +142,9 @@ export const updateCategory = async (req, res) => {
     const updated = _.extend(category, req.body);
     // save updated doc
     await updated.save();
-    res.status(201).json({
-      success: "Category successfully updated",
+    res.status(200).json({
+      success: true,
+      message: "Category successfully updated",
     });
   } catch (error) {
     handleError(res, error);
@@ -164,13 +171,15 @@ export const getProductsByCategory = async (req, res) => {
     const meta = paginatedResults(page, docCount, products);
     if (products.length > 0) {
       res.status(200).json({
-        success: "Products retrieved successfully",
+        success: false,
+        message: "Products retrieved successfully",
         meta,
         results: products,
       });
     } else {
-      res.json({
-        success: "No products found",
+      res.status(200).json({
+        success: true,
+        message: "No products found",
         results: products,
       });
     }

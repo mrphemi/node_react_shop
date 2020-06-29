@@ -15,14 +15,15 @@ export default async (req, res, next) => {
   try {
     await CategorySchema.validate(
       {
-        name
+        name,
       },
-      { strict: true }
+      { strict: true },
     );
     return next();
   } catch (error) {
     return res.status(422).json({
-      error: error.message
+      success: false,
+      message: error.message,
     });
   }
 };

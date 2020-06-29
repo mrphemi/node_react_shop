@@ -58,7 +58,7 @@ app.use("/brands", brandRoute);
 app.use("/sizes", sizeRoute);
 
 app.get("/", function (req, res) {
-  res.send("Welcome to reactshop api");
+  res.send("Welcome to e-commerce api");
 });
 
 // Listen for incoming requests

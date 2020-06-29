@@ -15,8 +15,9 @@ export const getUser = async (req, res) => {
   try {
     // check if id is a valid mongo id
     if (!isValidMongoId(userId)) {
-      res.status(422).json({
-        error: "Invalid user id",
+      return res.status(422).json({
+        success: false,
+        message: "Invalid user id",
       });
     }
 
@@ -31,12 +32,14 @@ export const getUser = async (req, res) => {
 
     if (user) {
       res.status(200).json({
-        success: "User retrieved successfully",
+        success: true,
+        message: "User retrieved successfully",
         result: user,
       });
     } else {
       res.status(404).json({
-        error: "No matches for user",
+        success: false,
+        message: "No matches for user",
       });
     }
   } catch (error) {
@@ -57,12 +60,14 @@ export const deleteUser = async (req, res) => {
     const user = await Customer.findByIdAndDelete(userId);
     if (user) {
       res.status(200).json({
-        success: "User deleted successfully",
+        success: true,
+        message: "User deleted successfully",
       });
     } else {
       // User not found
       res.status(404).json({
-        error: "No matches for this user",
+        success: false,
+        message: "No matches for this user",
       });
     }
   } catch (error) {
@@ -83,7 +88,8 @@ export const updateUserInfo = async (req, res) => {
     const user = await Customer.findById(userId);
     if (!user) {
       return res.status(404).json({
-        error: "No matches for user",
+        success: false,
+        message: "No matches for user",
       });
     }
     // update doc
@@ -91,7 +97,8 @@ export const updateUserInfo = async (req, res) => {
     // save updated doc
     await updated.save();
     res.status(201).json({
-      success: "User successfully updated",
+      success: true,
+      message: "User successfully updated",
     });
   } catch (error) {
     handleError(res, error);

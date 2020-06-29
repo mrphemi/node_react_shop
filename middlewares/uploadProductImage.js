@@ -52,7 +52,8 @@ const uploadProductImage = (req, res, next) => {
   } else {
     if (req.method === "POST") {
       res.status(422).json({
-        error: "No files selected",
+        success: false,
+        message: "No files selected",
       });
     } else {
       return next();

@@ -37,7 +37,8 @@ export const requireSignIn = async (req, res, next) => {
     return next();
   } catch (error) {
     res.status(401).json({
-      error: "Unauthenticated. Please Login",
+      success: false,
+      message: "Unauthenticated. Please Login",
     });
   }
 };
@@ -59,7 +60,8 @@ export const requireAdmin = (req, res, next) => {
     const { role } = authenticatedUser;
     if (role !== "Admin") {
       return res.status(403).json({
-        error: "Unauthorized. Admin Resource",
+        success: false,
+        message: "Unauthorized. Admin Resource",
       });
     }
     return next();
@@ -70,7 +72,7 @@ export const requireAdmin = (req, res, next) => {
 
 /**
  * Checks if the authenticated user's id and
- * request param "userId" are equal
+ * request param "userId" are same
  *
  *
  * @param {Object} req
@@ -87,7 +89,8 @@ export const requireSameUser = (req, res, next) => {
     const { userId } = req.params;
     if (id !== userId) {
       return res.status(403).json({
-        error: "Unauthorized. Access denied",
+        success: false,
+        message: "Unauthorized. Access denied",
       });
     }
     return next();
@@ -117,7 +120,8 @@ export const requireAdminOrSameUser = (req, res, next) => {
       return next();
     } else {
       return res.status(403).json({
-        error: "Unauthorized. Access denied",
+        success: false,
+        message: "Unauthorized. Access denied",
       });
     }
   } catch (error) {

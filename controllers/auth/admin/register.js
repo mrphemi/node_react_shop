@@ -18,14 +18,15 @@ const register = async (req, res) => {
     const existingUser = await Admin.findOne({ email });
     if (existingUser) {
       return res.status(403).json({
-        error: "Sorry, user with email already exists"
-      });
-    } else {
-      await Admin.create(newUser);
-      return res.status(201).json({
-        success: "Account registered successfully."
+        success: false,
+        message: "Sorry, user with email already exists",
       });
     }
+    await Admin.create(newUser);
+    return res.status(201).json({
+      success: true,
+      message: "Account registered successfully.",
+    });
   } catch (error) {
     handleError(res, error);
   }

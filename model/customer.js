@@ -16,10 +16,10 @@ const CustomerSchema = new Schema(
     role: {
       type: String,
       default: "Customer",
-      immutable: true
-    }
+      immutable: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 /**
@@ -28,7 +28,7 @@ const CustomerSchema = new Schema(
  *
  * @return {null}
  */
-CustomerSchema.pre("save", function() {
+CustomerSchema.pre("save", function () {
   this.password = bcrypt.hashSync(this.password);
 });
 
@@ -37,7 +37,7 @@ CustomerSchema.pre("save", function() {
  *
  * @return {boolean}
  */
-CustomerSchema.methods.comparePasswords = function(password) {
+CustomerSchema.methods.comparePasswords = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
@@ -46,13 +46,13 @@ CustomerSchema.methods.comparePasswords = function(password) {
  *
  * @return {string}
  */
-CustomerSchema.methods.generateToken = function() {
+CustomerSchema.methods.generateToken = function () {
   const userInfo = {
     id: this._id,
     email: this.email,
     first_name: this.first_name,
     last_name: this.last_name,
-    role: this.role
+    role: this.role,
   };
   return jwt.sign(userInfo, config.jwtSecret, { expiresIn: "7d" });
 };

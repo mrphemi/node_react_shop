@@ -15,12 +15,14 @@ export const getAll = async (req, res) => {
     const brands = await Brand.find({}).select("name");
     if (brands.length > 0) {
       res.status(200).json({
-        success: "Brands retrieved successfully",
+        success: true,
+        message: "Brands retrieved successfully",
         results: brands,
       });
     } else {
       res.json({
-        success: "No Brand found",
+        success: true,
+        message: "No Brand found",
         results: brands,
       });
     }
@@ -33,15 +35,17 @@ export const loadBrand = async (req, res, next, id) => {
   try {
     // check if id is a valid mongo id
     if (!isValidMongoId(id)) {
-      res.status(422).json({
-        error: "Invalid brand id",
+      return res.status(422).json({
+        success: false,
+        message: "Invalid brand id",
       });
     }
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt";
     const brand = await Brand.findById(id).select(EXCLUDE_OPTIONS);
     if (!brand) {
       return res.status(404).json({
-        error: "No matches for brand",
+        success: false,
+        message: "No matches for brand",
       });
     }
     req.brand = brand;
@@ -60,7 +64,8 @@ export const loadBrand = async (req, res, next, id) => {
 
 export const getBrand = async (req, res) => {
   res.status(200).json({
-    success: "Brand retrieved successfully",
+    success: true,
+    message: "Brand retrieved successfully",
     result: req.brand,
   });
 };
@@ -79,12 +84,14 @@ export const createBrand = async (req, res) => {
     const existingBrand = await Brand.findOne({ name });
     if (existingBrand) {
       return res.status(403).json({
-        error: "Brand already exists",
+        success: false,
+        message: "Brand already exists",
       });
     } else {
       await Brand.create(newBrand);
       return res.status(201).json({
-        success: "Brand Created Successfully",
+        success: true,
+        message: "Brand Created Successfully",
       });
     }
   } catch (error) {
@@ -104,7 +111,8 @@ export const deleteBrand = async (req, res) => {
     const brand = req.brand;
     await Brand.deleteOne({ _id: brand._id });
     return res.status(200).json({
-      success: "Brand deleted successfully",
+      success: true,
+      message: "Brand deleted successfully",
     });
   } catch (error) {
     handleError(res, error);
@@ -125,8 +133,9 @@ export const updateBrand = async (req, res) => {
     const updated = _.extend(brand, req.body);
     // save updated doc
     await updated.save();
-    res.status(201).json({
-      success: "Brand successfully updated",
+    res.status(200).json({
+      success: true,
+      message: "Brand successfully updated",
     });
   } catch (error) {
     handleError(res, error);

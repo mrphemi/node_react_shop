@@ -14,15 +14,17 @@ export const loadProduct = async (req, res, next, id) => {
   try {
     // check if id is a valid mongo id
     if (!isValidMongoId(id)) {
-      res.status(422).json({
-        error: "Invalid product id",
+      return res.status(422).json({
+        success: false,
+        message: "Invalid product id",
       });
     }
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt";
     const product = await Product.findById(id).select(EXCLUDE_OPTIONS);
     if (!product) {
       return res.status(404).json({
-        error: "No matches for product",
+        success: false,
+        message: "No matches for product",
       });
     }
     req.product = product;
@@ -51,13 +53,15 @@ export const getAll = async (req, res) => {
     const meta = paginatedResults(page, docCount, products);
     if (products.length > 0) {
       res.status(200).json({
-        success: "Products retrieved",
+        success: true,
+        message: "Products retrieved",
         meta,
         results: products,
       });
     } else {
-      res.json({
-        success: "No products found",
+      res.status(200).json({
+        success: true,
+        message: "No products found",
         results: products,
       });
     }
@@ -81,12 +85,14 @@ export const getRelatedProducts = async (req, res) => {
     }).select("name category price image");
     if (products.length > 0) {
       res.status(200).json({
-        success: "Products retrieved",
+        success: true,
+        message: "Products retrieved",
         results: products,
       });
     } else {
-      res.json({
-        success: "No products found",
+      res.status(200).json({
+        success: true,
+        message: "No products found",
         results: products,
       });
     }
@@ -118,13 +124,15 @@ export const getProductsBySearch = async (req, res) => {
     const meta = paginatedResults(page, docCount, products);
     if (products.length > 0) {
       res.status(200).json({
-        success: "Products retrieved",
+        success: true,
+        message: "Products retrieved",
         meta,
         results: products,
       });
     } else {
-      res.json({
-        success: "No products found",
+      res.status(200).json({
+        success: true,
+        message: "No products found",
         results: products,
       });
     }
@@ -142,7 +150,8 @@ export const getProductsBySearch = async (req, res) => {
 
 export const getProduct = async (req, res) => {
   res.status(200).json({
-    success: "Product retrieved successfully",
+    success: true,
+    message: "Product retrieved successfully",
     result: req.product,
   });
 };
@@ -155,7 +164,6 @@ export const getProduct = async (req, res) => {
  */
 
 export const createProduct = async (req, res) => {
-  console.log(req.body);
   // Create new product
   const newProduct = new Product({
     ...req.body,
@@ -165,10 +173,12 @@ export const createProduct = async (req, res) => {
     // Save new product to db
     const product = await Product.create(newProduct);
     return res.status(201).json({
-      success: "Product Created Successfully",
+      success: true,
+      message: "Product Created Successfully",
       id: product.id,
     });
   } catch (error) {
+    console.log("ERRORRRRRRRRRRRRRRRR");
     handleError(res, error);
   }
 };
@@ -191,7 +201,8 @@ export const deleteProduct = async (req, res) => {
     });
 
     return res.status(200).json({
-      success: "Product deleted successfully",
+      success: true,
+      message: "Product deleted successfully",
     });
   } catch (error) {
     handleError(res, error);
@@ -208,7 +219,6 @@ export const deleteProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const product = req.product;
-    // delete current product image from cloudinary
     // if user updates product image
     if (req.file) {
       // Grab current image id
@@ -222,9 +232,10 @@ export const updateProduct = async (req, res) => {
     // update doc
     const updated = _.extend(product, req.body);
     // save updated doc
-    const updatedProduct = await updated.save();
+    await updated.save();
     res.status(201).json({
-      success: "Product successfully updated",
+      success: true,
+      message: "Product successfully updated",
     });
   } catch (error) {
     handleError(res, error);
@@ -272,12 +283,14 @@ export const uploadProductImage = (req, res, next) => {
         return next();
       })
       .catch((err) => {
+        console.log("ERRORRRRRRRRRR");
         handleError(res, err);
       });
   } else {
     if (req.method === "POST") {
       res.status(422).json({
-        error: "No files selected",
+        success: false,
+        message: "No files selected",
       });
     } else {
       return next();

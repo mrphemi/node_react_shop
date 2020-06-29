@@ -16,10 +16,10 @@ const AdminSchema = new Schema(
     role: {
       type: String,
       default: "Admin",
-      immutable: true
-    }
+      immutable: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 /**
@@ -28,7 +28,7 @@ const AdminSchema = new Schema(
  *
  * @return {null}
  */
-AdminSchema.pre("save", function() {
+AdminSchema.pre("save", function () {
   this.password = bcrypt.hashSync(this.password);
 });
 
@@ -37,7 +37,7 @@ AdminSchema.pre("save", function() {
  *
  * @return {boolean}
  */
-AdminSchema.methods.comparePasswords = function(password) {
+AdminSchema.methods.comparePasswords = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
@@ -46,15 +46,15 @@ AdminSchema.methods.comparePasswords = function(password) {
  *
  * @return {string}
  */
-AdminSchema.methods.generateToken = function() {
+AdminSchema.methods.generateToken = function () {
   const userInfo = {
     id: this._id,
     email: this.email,
     first_name: this.first_name,
     last_name: this.last_name,
-    role: this.role
+    role: this.role,
   };
-  return jwt.sign(userInfo, config.jwtSecret, { expiresIn: "7d" });
+  return jwt.sign(userInfo, config.jwtSecret, { expiresIn: "2h" });
 };
 
 const Admin = mongoose.model("Admin", AdminSchema);

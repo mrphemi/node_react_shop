@@ -15,12 +15,14 @@ export const getAll = async (req, res) => {
     const sizes = await Size.find({}).select("size");
     if (sizes.length > 0) {
       res.status(200).json({
-        success: "Sizes retrieved successfully",
+        success: true,
+        message: "Sizes retrieved successfully",
         results: sizes,
       });
     } else {
-      res.json({
-        success: "No Size found",
+      res.status(200).json({
+        success: true,
+        message: "No Size found",
         results: sizes,
       });
     }
@@ -33,15 +35,17 @@ export const loadSize = async (req, res, next, id) => {
   try {
     // check if id is a valid mongo id
     if (!isValidMongoId(id)) {
-      res.status(422).json({
-        error: "Invalid size id",
+      return res.status(422).json({
+        success: false,
+        message: "Invalid size id",
       });
     }
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt";
     const size = await Size.findById(id).select(EXCLUDE_OPTIONS);
     if (!size) {
       return res.status(404).json({
-        error: "No matches for size",
+        success: false,
+        message: "No matches for size",
       });
     }
     req.size = size;
@@ -60,7 +64,8 @@ export const loadSize = async (req, res, next, id) => {
 
 export const getSize = async (req, res) => {
   res.status(200).json({
-    success: "Size retrieved successfully",
+    success: true,
+    message: "Size retrieved successfully",
     result: req.size,
   });
 };
@@ -79,14 +84,15 @@ export const createSize = async (req, res) => {
     const existingSize = await Size.findOne({ size });
     if (existingSize) {
       return res.status(403).json({
-        error: "Size already exists",
-      });
-    } else {
-      await Size.create(newSize);
-      return res.status(201).json({
-        success: "Size Created Successfully",
+        success: false,
+        message: "Size already exists",
       });
     }
+    await Size.create(newSize);
+    res.status(201).json({
+      success: true,
+      message: "Size Created Successfully",
+    });
   } catch (error) {
     handleError(res, error);
   }
@@ -104,7 +110,8 @@ export const deleteSize = async (req, res) => {
     const size = req.size;
     await Size.deleteOne({ _id: size._id });
     return res.status(200).json({
-      success: "Size deleted successfully",
+      success: false,
+      message: "Size deleted successfully",
     });
   } catch (error) {
     handleError(res, error);
@@ -126,7 +133,8 @@ export const updateSize = async (req, res) => {
     // save updated doc
     await updated.save();
     res.status(201).json({
-      success: "Size successfully updated",
+      success: true,
+      message: "Size successfully updated",
     });
   } catch (error) {
     handleError(res, error);

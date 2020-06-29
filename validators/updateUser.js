@@ -1,6 +1,6 @@
 import { updateUserSchema } from "../validation-schemas";
 /**
- * Validates the update user info. request
+ * Validates the update user request
  *
  * @param {Object} req
  *
@@ -16,7 +16,8 @@ export default async (req, res, next) => {
     return next();
   } catch (error) {
     return res.status(422).json({
-      error: error.message
+      success: false,
+      message: error.message,
     });
   }
 };

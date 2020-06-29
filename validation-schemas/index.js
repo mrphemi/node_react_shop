@@ -9,7 +9,7 @@ export const LoginSchema = Yup.object().shape({
     .required("email is required"),
   password: Yup.string()
     .min(6, "password must be minimum of 6 xters")
-    .max(10, "password must not be more than 10 xters")
+    .max(20, "password must not be more than 10 xters")
     .required("password is required"),
 });
 
@@ -29,8 +29,8 @@ export const RegisterSchema = Yup.object().shape({
     .required("email is required"),
   password: Yup.string()
     .typeError("password must be a valid string")
-    .min(6, "password must be minimum of 6 xters")
-    .max(10, "password must not be more than 10 xters")
+    .min(6, "password must be minimum of 6 characters")
+    .max(20, "password must not be more than 10 characters")
     .required("password is required"),
 });
 

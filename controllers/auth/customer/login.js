@@ -18,7 +18,8 @@ const login = async (req, res) => {
     // Return error if user doesn't exist
     if (!user) {
       return res.status(401).json({
-        error: "email or password incorrect"
+        success: false,
+        message: "email or password incorrect",
       });
     }
 
@@ -28,15 +29,17 @@ const login = async (req, res) => {
     // Return error if password is incorrect
     if (!passwordIsCorrect) {
       return res.status(401).json({
-        error: "email or password incorrect"
+        success: false,
+        message: "email or password incorrect",
       });
     }
 
     const token = await user.generateToken();
 
     return res.status(200).json({
-      success: "Login successful",
-      token
+      success: true,
+      message: "Login successful",
+      token,
     });
   } catch (error) {
     handleError(res, error);
