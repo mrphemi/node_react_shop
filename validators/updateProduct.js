@@ -12,7 +12,7 @@ import { updateProductSchema } from "../validation-schemas";
  */
 export default async (req, res, next) => {
   try {
-    await updateProductSchema.validate(req.body);
+    await updateProductSchema.validate(req.body, { strict: true });
     return next();
   } catch (error) {
     return res.status(422).json({

@@ -15,7 +15,7 @@ export const getAll = async (req, res) => {
     const docCount = await Customer.estimatedDocumentCount();
     const { limit, offset } = getOffsetAndLimit(page);
     const customers = await Customer.find({})
-      .select("first_name last_name email")
+      .select("first_name last_name email phone")
       .limit(limit)
       .skip(offset);
     const meta = paginatedResults(page, docCount, customers);
@@ -54,8 +54,9 @@ export const getCustomer = async (req, res) => {
         message: "Invalid customer id",
       });
     }
+    const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt -password";
     const customer = await Customer.findById(customerId).select(
-      "first_name last_name email",
+      EXCLUDE_OPTIONS,
     );
     if (customer) {
       res.status(200).json({

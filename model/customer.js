@@ -13,6 +13,12 @@ const CustomerSchema = new Schema(
     email: String,
     password: String,
     phone: Number,
+    address: {
+      country: String,
+      city: String,
+      street_address: String,
+      postal_code: String,
+    },
     role: {
       type: String,
       default: "Customer",
