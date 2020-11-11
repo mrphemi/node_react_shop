@@ -1,7 +1,7 @@
 {
-  "name": "node_react_shop",
+  "name": "bolt_ecommerce_api",
   "version": "1.0.0",
-  "description": "Node React Web shop",
+  "description": "Bolt e-commerce api",
   "main": "server.js",
   "scripts": {
     "start": "babel-node server.js",

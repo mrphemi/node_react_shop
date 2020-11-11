@@ -9,8 +9,8 @@ export const LoginSchema = object().shape({
     .email("email must be a valid email")
     .required("email is required"),
   password: string()
-    .min(6, "password must be minimum of 6 characters")
-    .max(20, "password must not be more than 10 characters")
+    .min(6, "min of 6 characters for password")
+    .max(50, "max of 50 characters for password")
     .required("password is required"),
 });
 
@@ -30,12 +30,13 @@ export const RegisterSchema = object().shape({
     .required("email is required"),
   password: string()
     .typeError("password must be a valid string")
-    .min(6, "password must be minimum of 6 characters")
-    .max(20, "password must not be more than 10 characters")
+    .min(6, "min of 6 characters for password")
+    .max(50, "max of 50 characters for password")
     .required("password is required"),
 });
 
 // User
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export const updateUserSchema = object().shape({
   first_name: string().typeError("user_name must be a valid string").trim(),
   last_name: string().typeError("user_name must be a valid string").trim(),
@@ -43,6 +44,17 @@ export const updateUserSchema = object().shape({
     .typeError("email must be a valid string")
     .email("email must be a valid email")
     .trim(),
+  phone: string().matches(phoneRegExp, "Phone number is not valid"),
+  address: object({
+    country: string().typeError("country must be a valid string").trim(),
+    city: string().typeError("city must be a valid string").trim(),
+    street_address: string()
+      .typeError("street address must be a valid string")
+      .trim(),
+    postal_code: string()
+      .typeError("postal code must be a valid string")
+      .trim(),
+  }),
 });
 
 // Category
@@ -77,13 +89,19 @@ export const createProductSchema = object().shape({
     .typeError("price must be a number")
     .positive("price must be greater than zero")
     .required(),
-  quantity: number()
-    .typeError("quantity must be a number")
-    .positive("quantity must be greater than zero")
-    .integer(),
   availableSizes: array()
-    .typeError("please select at least on size")
-    .of(string().required())
+    .of(
+      object()
+        .shape({
+          size: string().typeError("Please enter a valid size").trim(),
+          quantity: number()
+            .typeError("quantity must be a number")
+            .positive("quantity must be greater than zero")
+            .integer(),
+        })
+        .required(),
+    )
+    .typeError("please select at least one size")
     .min(1, "At least one size must be selected")
     .required(),
   brand: string().typeError("A brand must be specified").trim().required(),
@@ -101,12 +119,19 @@ export const updateProductSchema = object().shape({
   price: number()
     .typeError("price must be a number")
     .positive("price must be greater than zero"),
-  quantity: number()
-    .typeError("quantity must be a number")
-    .positive("quantity must be greater than zero")
-    .integer(),
   availableSizes: array()
-    .typeError("please select at least on size")
+    .of(
+      object()
+        .shape({
+          size: string().typeError("Please enter a valid size").trim(),
+          quantity: number()
+            .typeError("quantity must be a number")
+            .positive("quantity must be greater than zero")
+            .integer(),
+        })
+        .required(),
+    )
+    .typeError("please select at least one size")
     .min(1, "At least one size must be selected"),
   brand: string().typeError("brand must be valid string").trim(),
   image: string()
@@ -114,14 +139,4 @@ export const updateProductSchema = object().shape({
     .trim()
     .url("image must be a valid url"),
   image_id: string().typeError("image must be a valid string").trim(),
-  address: object({
-    country: string().typeError("country must be a valid string").trim(),
-    city: string().typeError("city must be a valid string").trim(),
-    street_address: string()
-      .typeError("street address must be a valid string")
-      .trim(),
-    postal_code: string()
-      .typeError("postal code must be a valid string")
-      .trim(),
-  }),
 });

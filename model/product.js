@@ -20,12 +20,14 @@ const productSchema = new Schema(
       autopopulate: { select: "name" },
     },
     availableSizes: [
-      { type: ObjectId, ref: "Size", autopopulate: { select: "size" } },
+      {
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+        size: { type: ObjectId, ref: "Size", autopopulate: { select: "size" } },
+      },
     ],
-    quantity: {
-      type: Number,
-      default: 1,
-    },
     image: String,
     image_id: String,
   },

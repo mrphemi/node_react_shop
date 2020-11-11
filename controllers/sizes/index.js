@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 import Size from "../../model/size";
-import { handleError, isValidMongoId } from "../../helpers";
+import { handleError } from "../../helpers";
 
 /**
  * Gets all sizes
@@ -33,13 +33,6 @@ export const getAll = async (req, res) => {
 
 export const loadSize = async (req, res, next, id) => {
   try {
-    // check if id is a valid mongo id
-    if (!isValidMongoId(id)) {
-      return res.status(422).json({
-        success: false,
-        message: "Invalid size id",
-      });
-    }
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt";
     const size = await Size.findById(id).select(EXCLUDE_OPTIONS);
     if (!size) {

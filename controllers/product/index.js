@@ -4,21 +4,14 @@ import cloudinary from "cloudinary";
 import Chalk from "chalk";
 import _ from "lodash";
 import Product from "../../model/product";
-import { isValidMongoId, handleError } from "../../helpers";
-import { getOffsetAndLimit, paginatedResults } from "../../helpers/paginate";
+import { handleError } from "../../helpers";
+import { getOffsetAndLimit, paginatedResults } from "../../helpers/pagination";
 
 // cloudinary uploader
 const uploader = cloudinary.v2.uploader;
 
 export const loadProduct = async (req, res, next, id) => {
   try {
-    // check if id is a valid mongo id
-    if (!isValidMongoId(id)) {
-      return res.status(422).json({
-        success: false,
-        message: "Invalid product id",
-      });
-    }
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt";
     const product = await Product.findById(id).select(EXCLUDE_OPTIONS);
     if (!product) {
@@ -142,6 +135,59 @@ export const getProductsBySearch = async (req, res) => {
 };
 
 /**
+ * Fetches all products based on filters
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+export const getProductsByFilters = async (req, res) => {
+  const { page } = req.query;
+  const { filters } = req.body;
+  try {
+    let transformedFilters = {};
+
+    for (let key in filters) {
+      if (filters[key].length > 0) {
+        if (key === "price") {
+          transformedFilters[key] = {
+            $gte: filters[key][0],
+            $lte: filters[key][1],
+          };
+        } else {
+          transformedFilters[key] = filters[key];
+        }
+      }
+    }
+
+    const docCount = await Product.countDocuments(transformedFilters);
+    const { limit, offset } = getOffsetAndLimit(page);
+
+    const products = await Product.find(transformedFilters)
+      .select("name category price image")
+      .limit(limit)
+      .skip(offset);
+    const meta = paginatedResults(page, docCount, products);
+
+    if (products.length > 0) {
+      res.status(200).json({
+        success: true,
+        message: "Products retrieved",
+        meta,
+        results: products,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "No products found",
+        results: products,
+      });
+    }
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+/**
  * Fetches single product from db
  *
  * @param {Object} req
@@ -165,10 +211,8 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   // Create new product
-  const newProduct = new Product({
-    ...req.body,
-    availableSizes: JSON.parse(req.body.availableSizes),
-  });
+  //availableSizes: JSON.parse(req.body.availableSizes),
+  const newProduct = new Product(req.body);
   try {
     // Save new product to db
     const product = await Product.create(newProduct);
@@ -178,7 +222,6 @@ export const createProduct = async (req, res) => {
       id: product.id,
     });
   } catch (error) {
-    console.log("ERRORRRRRRRRRRRRRRRR");
     handleError(res, error);
   }
 };
@@ -228,7 +271,6 @@ export const updateProduct = async (req, res) => {
         console.log(Chalk.red("Product image deleted"));
       });
     }
-
     // update doc
     const updated = _.extend(product, req.body);
     // save updated doc
@@ -283,7 +325,6 @@ export const uploadProductImage = (req, res, next) => {
         return next();
       })
       .catch((err) => {
-        console.log("ERRORRRRRRRRRR");
         handleError(res, err);
       });
   } else {

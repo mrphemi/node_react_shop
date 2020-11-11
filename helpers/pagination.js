@@ -28,13 +28,13 @@ export const paginatedResults = (
   pageNo,
   totalResults,
   results,
-  pageLimit = 20
+  pageLimit = 20,
 ) => {
   const meta = {
     page_no: parseInt(pageNo) || 1,
     total_pages: Math.ceil(totalResults / parseInt(pageLimit)),
     page_size: results.length,
-    total_results: totalResults
+    total_results: totalResults,
   };
   return meta;
 };

@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 import Brand from "../../model/brand";
-import { handleError, isValidMongoId } from "../../helpers";
+import { handleError } from "../../helpers";
 
 /**
  * Gets all brands
@@ -33,13 +33,6 @@ export const getAll = async (req, res) => {
 
 export const loadBrand = async (req, res, next, id) => {
   try {
-    // check if id is a valid mongo id
-    if (!isValidMongoId(id)) {
-      return res.status(422).json({
-        success: false,
-        message: "Invalid brand id",
-      });
-    }
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt";
     const brand = await Brand.findById(id).select(EXCLUDE_OPTIONS);
     if (!brand) {

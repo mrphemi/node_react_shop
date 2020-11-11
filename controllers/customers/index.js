@@ -1,6 +1,6 @@
 import Customer from "../../model/customer";
-import { getOffsetAndLimit, paginatedResults } from "../../helpers/paginate";
-import { isValidMongoId, handleError } from "../../helpers";
+import { paginatedResults, getOffsetAndLimit } from "../../helpers/pagination";
+import { handleError } from "../../helpers";
 
 /**
  * Gets all customers
@@ -48,12 +48,6 @@ export const getAll = async (req, res) => {
 export const getCustomer = async (req, res) => {
   const { customerId } = req.params;
   try {
-    if (!isValidMongoId(customerId)) {
-      return res.status(422).json({
-        success: false,
-        message: "Invalid customer id",
-      });
-    }
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt -password";
     const customer = await Customer.findById(customerId).select(
       EXCLUDE_OPTIONS,

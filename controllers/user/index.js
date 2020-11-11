@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Customer from "../../model/customer";
 import Admin from "../../model/admin";
-import { isValidMongoId, handleError } from "../../helpers";
+import { handleError } from "../../helpers";
 
 /**
  * Gets single user
@@ -20,8 +20,8 @@ export const getUser = async (req, res) => {
         message: "Invalid user id",
       });
     }
-
     const EXCLUDE_OPTIONS = "-password -__v -createdAt -updatedAt -role";
+
     let user;
 
     if (req.authUser.role === "Customer") {
@@ -85,7 +85,14 @@ export const deleteUser = async (req, res) => {
 export const updateUserInfo = async (req, res) => {
   const { userId } = req.params;
   try {
-    const user = await Customer.findById(userId);
+    let user;
+
+    if (req.authUser.role === "Customer") {
+      user = await Customer.findById(userId);
+    } else {
+      user = await Admin.findById(userId);
+    }
+
     if (!user) {
       return res.status(404).json({
         success: false,

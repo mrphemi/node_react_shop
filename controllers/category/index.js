@@ -1,8 +1,8 @@
 import _ from "lodash";
 import Category from "../../model/category";
 import Products from "../../model/product";
-import { paginatedResults, getOffsetAndLimit } from "../../helpers/paginate";
-import { handleError, isValidMongoId } from "../../helpers";
+import { paginatedResults, getOffsetAndLimit } from "../../helpers/pagination";
+import { handleError } from "../../helpers";
 
 /**
  * Get all categories
@@ -42,13 +42,6 @@ export const getAll = async (req, res) => {
 
 export const loadCategory = async (req, res, next, id) => {
   try {
-    // check if id is a valid mongo id
-    if (!isValidMongoId(id)) {
-      return res.status(422).json({
-        success: false,
-        message: "Invalid category id",
-      });
-    }
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt";
     const category = await Category.findById(id).select(EXCLUDE_OPTIONS);
     if (!category) {

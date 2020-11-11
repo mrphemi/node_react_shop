@@ -12,6 +12,7 @@ import {
   updateProduct,
   getRelatedProducts,
   getProductsBySearch,
+  getProductsByFilters,
   loadProduct,
   uploadProductImage,
 } from "../controllers/product";
@@ -41,6 +42,11 @@ router.get("/", getAll);
 // @desc    Retrieve all products based on search string
 // @access  Public
 router.get("/search", getProductsBySearch);
+
+// @route   GET /products/filters
+// @desc    Retrieve all products based on filters
+// @access  Public
+router.get("/filters", getProductsByFilters);
 
 // @route   GET /products/{productId}
 // @desc    Retrieve's single product
