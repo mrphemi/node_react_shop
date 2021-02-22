@@ -13,13 +13,6 @@ import { handleError } from "../../helpers";
 export const getUser = async (req, res) => {
   const { userId } = req.params;
   try {
-    // check if id is a valid mongo id
-    if (!isValidMongoId(userId)) {
-      return res.status(422).json({
-        success: false,
-        message: "Invalid user id",
-      });
-    }
     const EXCLUDE_OPTIONS = "-password -__v -createdAt -updatedAt -role";
 
     let user;

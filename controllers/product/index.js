@@ -211,8 +211,10 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   // Create new product
-  //availableSizes: JSON.parse(req.body.availableSizes),
-  const newProduct = new Product(req.body);
+  const newProduct = new Product({
+    ...req.body,
+    availableSizes: JSON.parse(req.body.availableSizes),
+  });
   try {
     // Save new product to db
     const product = await Product.create(newProduct);
@@ -272,7 +274,10 @@ export const updateProduct = async (req, res) => {
       });
     }
     // update doc
-    const updated = _.extend(product, req.body);
+    const updated = _.extend(product, {
+      ...req.body,
+      availableSizes: JSON.parse(req.body.availableSizes),
+    });
     // save updated doc
     await updated.save();
     res.status(201).json({
