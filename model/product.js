@@ -4,6 +4,14 @@ import autopopulate from "mongoose-autopopulate";
 const Schema = mongoose.Schema;
 const { ObjectId } = Schema;
 
+const sizeSchema = new Schema({
+  quantity: {
+    type: Number,
+    default: 1,
+  },
+  size: { type: ObjectId, ref: "Size" },
+});
+
 const productSchema = new Schema(
   {
     name: String,
@@ -19,15 +27,7 @@ const productSchema = new Schema(
       ref: "Brand",
       autopopulate: { select: "name" },
     },
-    availableSizes: [
-      {
-        quantity: {
-          type: Number,
-          default: 1,
-        },
-        size: { type: ObjectId, ref: "Size", autopopulate: { select: "size" } },
-      },
-    ],
+    availableSizes: [sizeSchema],
     image: String,
     image_id: String,
   },

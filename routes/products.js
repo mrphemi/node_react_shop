@@ -9,6 +9,7 @@ import {
   getProduct,
   createProduct,
   deleteProduct,
+  bulkDeleteProducts,
   updateProduct,
   getRelatedProducts,
   getProductsBySearch,
@@ -71,6 +72,12 @@ router.post(
   uploadProductImage,
   createProduct,
 );
+
+// @route   DELETE /products/{productId}
+// @desc    Deletes specified product
+// @access  Private
+// @admin_resource    True
+router.delete("/bulk_delete", requireSignIn, requireAdmin, bulkDeleteProducts);
 
 // @route   DELETE /products/{productId}
 // @desc    Deletes specified product

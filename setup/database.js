@@ -8,7 +8,10 @@ export default function setupDatabase(app) {
   mongoose.Promise = global.Promise;
 
   mongoose
-    .connect(config.databaseUrl, { useNewUrlParser: true })
+    .connect(config.databaseUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
     .catch((err) => {
       console.log(err);
     });

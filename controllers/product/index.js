@@ -13,7 +13,9 @@ const uploader = cloudinary.v2.uploader;
 export const loadProduct = async (req, res, next, id) => {
   try {
     const EXCLUDE_OPTIONS = "-__v -createdAt -updatedAt";
-    const product = await Product.findById(id).select(EXCLUDE_OPTIONS);
+    const product = await Product.findById(id)
+      .select(EXCLUDE_OPTIONS)
+      .populate({ path: "availableSizes.size", select: "size" });
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -40,7 +42,7 @@ export const getAll = async (req, res) => {
     const docCount = await Product.estimatedDocumentCount();
     const { limit, offset } = getOffsetAndLimit(page);
     const products = await Product.find({})
-      .select("name category price image")
+      .select("name brand category price image image_id")
       .limit(limit)
       .skip(offset);
     const meta = paginatedResults(page, docCount, products);
@@ -248,6 +250,34 @@ export const deleteProduct = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Product deleted successfully",
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+/**
+ * Handles product deletion
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+
+export const bulkDeleteProducts = async (req, res) => {
+  try {
+    await Product.deleteMany({ _id: req.body.productIds });
+
+    //  Delete multiple product images from cloudinary
+    cloudinary.api.delete_resources(
+      req.body.imageIds,
+      function (error, result) {
+        console.log(result, error);
+      },
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Products deleted successfully",
     });
   } catch (error) {
     handleError(res, error);
